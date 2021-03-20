@@ -1,20 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import Square from './Square';
 
-export default function Board() {
+export default function Board(props) {
+  // Initalize state
+  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+  const [squareSize, setSize] = useState(120)
+
+  // Add event listeners for changes in the window height and width
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    });
+  }, []);
+
+  // Add useEffect for changes in height and width variables and change squareSize accordingly
+  useEffect(() => {
+    if (height < width) {
+      console.log(height)
+      setSize(height / 9)
+    } else {
+      setSize(width / 9)
+    };
+  }, [height, width])
+  // deconstruct props
+  let { theme, } = props;
+
+  // Set default theme
+  if (!theme) {
+    theme = {
+      light: "wheat",
+      dark:"chocolate"
+    }
+  }
 
   // Initalize array to store the board
   const board = [];
-
-  // create the board
+  console.log(theme)
+  // Create the board
   for (let i = 0; i < 8; i++) {
+
+    // Initalize the array for board
     let boardRow = []
-
-    for (let j = 0; j < 8; j++) {
-      boardRow.push(0)
+    // Initalize square color for row
+    let color;
+    if (i % 2 === 0) {
+      color = theme.light;
+    } else {
+      color = theme.dark;
     }
+    console.log(color)
+    // The board has 8 rows, for each row add 8 columns
+    for (let j = 0; j < 8; j++) {
+      // Add a square to the row
+      boardRow.push(<Square color={color} row={i} column={j} size={squareSize} />)
 
+      // Change the square color for the next square
+      color = color === theme.light ? theme.dark : theme.light;
+    }
     board.push(<div style={{display: 'flex'}}>{boardRow}</div>)
   }
+
   return (
     <div>
       {board}
