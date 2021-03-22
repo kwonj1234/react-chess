@@ -1,3 +1,10 @@
+/* CSS for Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  height: 50px;
+}
+
 /* CSS for Home Page */
 .home {
   display: flex;
