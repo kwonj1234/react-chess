@@ -38,7 +38,7 @@ def schema(dbpath = DBPATH):
         # correlate it with the match it belongs to
         sql = """CREATE TABLE moves (
             pk INTEGER PRIMARY KEY AUTOINCREMENT,
-            move INTEGER,
+            moveNum INTEGER,
             white VARCHAR(6),
             black VARCHAR(6),
             match_pk INTEGER,
