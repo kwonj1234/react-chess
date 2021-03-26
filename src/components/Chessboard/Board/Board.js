@@ -37,7 +37,7 @@ export default function Board(props) {
 
   // Initalize array to store the board
   const board = [];
-  console.log(theme)
+
   // Create the board
   for (let i = 0; i < 8; i++) {
 
@@ -50,7 +50,7 @@ export default function Board(props) {
     } else {
       color = theme.dark;
     }
-    console.log(color)
+
     // The board has 8 rows, for each row add 8 columns
     for (let j = 0; j < 8; j++) {
       // Add a square to the row
