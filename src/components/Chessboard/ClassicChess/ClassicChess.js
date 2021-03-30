@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Board, { InitializeClassicChess } from './InitializeClassic';
+import Board from '../Board';
+import InitializeClassicChess from './InitializeClassic';
 
 export default function ClassicChess() {
   // Initialize default state
