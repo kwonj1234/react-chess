@@ -1,4 +1,5 @@
 import { King, Queen, Rook, Bishop, Knight, Pawn } from '../Pieces';
+
 /**
  * 
  * @returns 2-D array representing a chessboard oriented in white's perspective (index [7][3] would be white's queen)
