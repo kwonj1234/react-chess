@@ -1,10 +1,10 @@
-import { King, Queen, Rook, Bishop, Knight, Pawn } from './Pieces';
+import { King, Queen, Rook, Bishop, Knight, Pawn } from '../Pieces';
 /**
  * 
  * @returns 2-D array representing a chessboard oriented in white's perspective (index [7][3] would be white's queen)
  * with all the pieces in the starting position of a classical game of chess. 
  */
-export default function ClassicChessboard() {
+export default function InitializeClassicChess() {
 
   // Initalize the array representing the chessboard
   let board = [];

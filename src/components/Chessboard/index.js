@@ -12,4 +12,3 @@ import Knight from './Pieces/Knight';
 import Pawn from './Pieces/Pawn';
 
 export { King, Queen, Rook, Bishop, Knight, Pawn };
-
