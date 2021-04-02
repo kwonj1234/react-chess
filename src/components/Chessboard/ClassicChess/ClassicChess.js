@@ -12,7 +12,7 @@ export default function ClassicChess() {
 
   return (
     <div className="game">
-      <Board />
+      <Board positions={positions} />
     </div>
   )
 }

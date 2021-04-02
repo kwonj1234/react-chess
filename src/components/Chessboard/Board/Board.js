@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Square from './Square';
 
 export default function Board(props) {
+    // deconstruct props
+    let { theme, positions } = props;
+
   // Initalize state
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
@@ -18,14 +21,11 @@ export default function Board(props) {
   // Add useEffect for changes in height and width variables and change squareSize accordingly
   useEffect(() => {
     if (height < width) {
-      console.log(height)
       setSize(height / 9)
     } else {
       setSize(width / 9)
     };
   }, [height, width])
-  // deconstruct props
-  let { theme, } = props;
 
   // Set default theme
   if (!theme) {
@@ -53,8 +53,17 @@ export default function Board(props) {
 
     // The board has 8 rows, for each row add 8 columns
     for (let j = 0; j < 8; j++) {
+      console.log(i, j)
       // Add a square to the row
-      boardRow.push(<Square color={color} row={i} column={j} size={squareSize} />)
+      boardRow.push(
+        <Square 
+          color={color} 
+          row={i} 
+          column={j} 
+          size={squareSize} 
+          pieceImage={positions[i][j] ? positions[i][j].image : null}
+        />
+      )
 
       // Change the square color for the next square
       color = color === theme.light ? theme.dark : theme.light;
