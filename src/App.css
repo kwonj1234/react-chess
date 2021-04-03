@@ -11,9 +11,17 @@
   justify-content: center;
 }
 
-/* CSS for Squares of the board */
+/* CSS for Squares and Pieces of the board */
 .square {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
+.dragImage {
+  background-color: transparent;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .wheat {

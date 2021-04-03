@@ -8,7 +8,6 @@ export default function ClassicChess() {
   const [positions, setPositions] = useState(InitializeClassic())
   const [isWhitesTurn, setTurn] = useState(true); // True is white's turn, false is black's turn
 
-  console.log(positions);
 
   return (
     <div className="game">

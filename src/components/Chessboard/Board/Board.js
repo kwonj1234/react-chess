@@ -53,10 +53,10 @@ export default function Board(props) {
 
     // The board has 8 rows, for each row add 8 columns
     for (let j = 0; j < 8; j++) {
-      console.log(i, j)
       // Add a square to the row
       boardRow.push(
         <Square 
+          key={`${i}${j}`}
           color={color} 
           row={i} 
           column={j} 
@@ -68,7 +68,7 @@ export default function Board(props) {
       // Change the square color for the next square
       color = color === theme.light ? theme.dark : theme.light;
     }
-    board.push(<div style={{display: 'flex'}}>{boardRow}</div>)
+    board.push(<div key={`row${i}`}style={{display: 'flex'}}>{boardRow}</div>)
   }
 
   return (
