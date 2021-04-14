@@ -3,7 +3,6 @@ import React from 'react'
 export default function Square(props) {
   // Deconstruct props
   const { color, row, column, size, pieceImage, onClick } = props;
-  console.log(pieceImage);
   // Initialize variables for square background and image for drag
   let backgroundImage = null;
   let dragImage = null;

@@ -10,14 +10,17 @@ export default class King extends Component {
     this.isWhite = isWhite;
     // this.image = isWhite ? './../../chessPiecesImages/WhiteKing.svg' : './../../chessPiecesImages/BlackKing.svg';
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
+    this.hasMoved = false;
   }
   
   /**
   * Returns a bool to see if a destination is reachable from the current square
   * @param {*} src Array of 2 numbers representing the coordinate square. 
   * @param {*} dest Array of 2 numbers representing the coordinae square.
+  * @param {*} currentPositions 2D matrix containing the current positions on the board, used for 
+  * when the king attemps to castle.
   */
-  isMovePossible(src, dest) {
+  isMovePossible(src, dest, currentPositions) {
   
     // King can move in any direction but only 1 square. The difference in the x and y should be 
     // 0 or 1.

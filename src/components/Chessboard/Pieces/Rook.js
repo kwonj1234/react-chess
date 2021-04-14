@@ -10,6 +10,7 @@ export default class Rook extends Component {
     this.isWhite = isWhite;
     // this.image = isWhite ? './../../../../public/chessPiecesImages/WhiteRook.svg' : './../../../../public/chessPiecesImages/BlackRook.svg'
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg";
+    this.hasMoved = false;
   }
 
   /**

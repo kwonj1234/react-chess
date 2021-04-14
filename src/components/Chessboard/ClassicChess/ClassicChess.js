@@ -18,12 +18,12 @@ export default function ClassicChess() {
   const handleSquareClick = (row, column) => {
     // If the square is occupied by a piece of the opposite color of the player whose turn it is,
     // do not do anything
-
+    
   }
 
   return (
     <div className="game">
-      <Board positions={positions} />
+      <Board positions={positions} onClick={handleSquareClick}/>
     </div>
   )
 }
