@@ -8,7 +8,7 @@ export default class King extends Component {
   constructor(isWhite) {
     super();
     this.isWhite = isWhite;
-    this.image = isWhite ? './../../../../public/chessPiecesImages/WhiteKing.svg' : './../../../../public/chessPiecesImages/BlackKing.svg';
+    // this.image = isWhite ? './../../chessPiecesImages/WhiteKing.svg' : './../../chessPiecesImages/BlackKing.svg';
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
   }
   

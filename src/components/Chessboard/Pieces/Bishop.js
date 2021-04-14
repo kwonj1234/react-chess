@@ -8,7 +8,7 @@ export default class Bishop extends Component {
   constructor(isWhite) {
     super();
     this.isWhite = isWhite;
-    this.image = isWhite ? './../../../../public/chessPiecesImages/WhiteBishop.svg' : './../../../../public/chessPiecesImages/BlackBishop.svg';
+    // this.image = isWhite ? './../../../../public/chessPiecesImages/WhiteBishop.svg' : './../../../../public/chessPiecesImages/BlackBishop.svg';
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg";
   }
 
