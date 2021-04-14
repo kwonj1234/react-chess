@@ -1,8 +1,17 @@
+.App {
+  height: 100%;
+  background-color: rgb(34, 34, 34);
+}
+
 /* CSS for Navbar */
 .navbar {
   display: flex;
   justify-content: space-evenly;
   height: 50px;
+}
+
+.footer {
+  height: 100px;
 }
 
 /* CSS for Home Page */

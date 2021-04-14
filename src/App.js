@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import './App.css';
 // Import relevant pages
 import Home from './pages/Home';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }

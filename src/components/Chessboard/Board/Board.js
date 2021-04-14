@@ -3,7 +3,7 @@ import Square from './Square';
 
 export default function Board(props) {
     // deconstruct props
-    let { theme, positions } = props;
+    const { theme, positions, onClick } = props;
 
   // Initalize state
   const [width, setWidth] = useState(window.innerWidth);
@@ -62,6 +62,7 @@ export default function Board(props) {
           column={j} 
           size={squareSize} 
           pieceImage={positions[i][j] ? positions[i][j].image : null}
+          onClick={onClick}
         />
       )
 

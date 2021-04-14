@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Square(props) {
   // Deconstruct props
-  const { color, row, column, size, pieceImage } = props;
+  const { color, row, column, size, pieceImage, onClick } = props;
   // Initialize variables for square background and image for drag
   let backgroundImage = null;
   let dragImage = null;
@@ -19,9 +19,9 @@ export default function Square(props) {
     dragImage.src = pieceImage;
     dragImage.backgroundImage = pieceImage;
 
-    // dragImage = new Image(1000, 1000);
-    // dragImage.src = pieceImage;
-    // dragImage.className = 'dragImage';
+    dragImage = new Image(1000, 1000);
+    dragImage.src = pieceImage;
+    dragImage.className = 'dragImage';
   }
 
   // Function to handle setting ghost image for drag event
@@ -29,29 +29,29 @@ export default function Square(props) {
     e.dataTransfer.setDragImage(dragImage, 25, 25);
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    // Query the element
-    const square = document.getElementById('square');
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   // Query the element
+  //   const square = document.getElementById('square');
 
-    // The ghost element
-    let ghostEle;
+  //   // The ghost element
+  //   let ghostEle;
 
-    square.addEventListener('dragstart', function(e) {
-        ghostEle = document.createElement('div');
-        ghostEle.className = 'dragImage';
-        ghostEle.width = size;
-        ghostEle.height = size;
-        ghostEle.src = pieceImage;
-        ghostEle.backgroundImage = pieceImage;
-        document.body.appendChild(ghostEle);
+  //   square.addEventListener('dragstart', function(e) {
+  //       ghostEle = document.createElement('div');
+  //       ghostEle.className = 'dragImage';
+  //       ghostEle.width = size;
+  //       ghostEle.height = size;
+  //       ghostEle.src = pieceImage;
+  //       ghostEle.backgroundImage = pieceImage;
+  //       document.body.appendChild(ghostEle);
 
-        e.dataTransfer.setDragImage(ghostEle, 0, 0);
-    });
+  //       e.dataTransfer.setDragImage(ghostEle, 0, 0);
+  //   });
 
-    square.addEventListener('dragend', function(e) {
-        document.body.removeChild(ghostEle);
-    });
-  });
+  //   square.addEventListener('dragend', function(e) {
+  //       document.body.removeChild(ghostEle);
+  //   });
+  // });
 
   return (
     <div 
@@ -66,7 +66,7 @@ export default function Square(props) {
       draggable={pieceImage ? true : false}
       onDragStart={e => handDragStart(e)}
       onDrag={() => {console.log('wtf')}}
-
+      onClick={onClick}
     />
   )
 }
