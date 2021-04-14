@@ -3,7 +3,7 @@ import Square from './Square';
 
 export default function Board(props) {
     // deconstruct props
-    const { theme, positions, onClick } = props;
+    let { theme, positions, onClick } = props;
 
   // Initalize state
   const [width, setWidth] = useState(window.innerWidth);

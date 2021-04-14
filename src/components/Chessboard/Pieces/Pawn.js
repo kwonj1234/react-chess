@@ -9,6 +9,7 @@ export default class Pawn extends Component {
   constructor(isWhite) {
     super();
     this.isWhite = isWhite;
+    this.image = isWhite ? "./../../../../public/chessPiecesImages/WhitePawn.svg" : "./../../../../public/chessPiecesImages/BlackKnight.svg";
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt45.svg";
   }
 

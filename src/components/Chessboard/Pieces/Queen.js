@@ -8,6 +8,7 @@ export default class Queen extends Component {
   constructor(isWhite) {
     super();
     this.isWhite = isWhite;
+    this.image = isWhite ? "./../../../../public/chessPiecesImages/WhiteQueen.svg" : "./../../../../public/chessPiecesImages/BlackQueen.svg";
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
   }
   
