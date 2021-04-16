@@ -61,12 +61,12 @@ export default function Square(props) {
       style={{
         width: size, 
         height: size, 
-        backgroundImage: backgroundImage
+        backgroundImage: backgroundImage,
       }} 
       draggable={pieceImage ? true : false}
       onDragStart={e => handDragStart(e)}
       onDrag={() => {console.log('wtf')}}
-      onClick={onClick}
+      onClick={() => onClick(row, column)}
     />
   )
 }

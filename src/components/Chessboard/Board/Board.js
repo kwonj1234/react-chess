@@ -3,7 +3,7 @@ import Square from './Square';
 
 export default function Board(props) {
     // deconstruct props
-    let { theme, positions, onClick } = props;
+    let { theme, positions, onClick, startingSquare } = props;
 
   // Initalize state
   const [width, setWidth] = useState(window.innerWidth);
@@ -31,7 +31,8 @@ export default function Board(props) {
   if (!theme) {
     theme = {
       light: "wheat",
-      dark:"chocolate"
+      dark: "chocolate",
+      highlight: "highlight"
     }
   }
 
@@ -53,6 +54,12 @@ export default function Board(props) {
 
     // The board has 8 rows, for each row add 8 columns
     for (let j = 0; j < 8; j++) {
+      
+      // If the starting square is the current square, highlight it
+      if (startingSquare === [i, j]) {
+        color = theme.highlight
+      }
+
       // Add a square to the row
       boardRow.push(
         <Square 
@@ -61,6 +68,7 @@ export default function Board(props) {
           row={i} 
           column={j} 
           size={squareSize} 
+          startingSquare={startingSquare}
           pieceImage={positions[i][j] ? positions[i][j].image : null}
           onClick={onClick}
         />

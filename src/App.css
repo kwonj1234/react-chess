@@ -33,6 +33,10 @@
   background-size: cover;
 }
 
+.highlight {
+  background-color: rgb(111,143,114);
+}
+
 .wheat {
   background-color: wheat;
 }
