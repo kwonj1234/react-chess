@@ -56,12 +56,13 @@ export default function Square(props) {
   return (
     <div 
       id='square'
-      className={`square ${color}`}
+      className={`square`}
       key={`square${row}${column}`} 
       style={{
         width: size, 
         height: size, 
         backgroundImage: backgroundImage,
+        backgroundColor: color
       }} 
       draggable={pieceImage ? true : false}
       onDragStart={e => handDragStart(e)}

@@ -31,14 +31,14 @@ export default function ClassicChess() {
 
       // If there is no startingSquare and the user selects an empty square, or selects a square 
       // occupied by the opposing piece do not do anything
-      if (!areArraysEqual([row, column], [null, null] || isWhitesTurn !== positions[row][column]?.isWhite)) {
-
+      if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
+        console.log("EMPTY SQUARE")
         return;
 
       // If the square is occupied by a current player's piece and there was no starting square selected
       // set the clicked square as the starting square and highlight it
       } else if (positions[row][column].isWhite === isWhitesTurn) {
-
+        console.log("Select starting square")
         let temp = [row, column]
         setStartingSquare(temp)
 
@@ -51,8 +51,14 @@ export default function ClassicChess() {
       // set the clicked square as the new starting square and highlight it
       if (positions[row][column].isWhite === isWhitesTurn) {
 
+        console.log('change square')
         let temp = [row, column]
         setStartingSquare(temp)
+
+      // From the starting square to the selected square, see if that move is possible for the 
+      // piece on the starting square
+      } else {
+        console.log()
 
       }
 

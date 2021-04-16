@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { areArraysEqual } from '../../utils';
 import Square from './Square';
 
 export default function Board(props) {
@@ -32,7 +33,7 @@ export default function Board(props) {
     theme = {
       light: "wheat",
       dark: "chocolate",
-      highlight: "highlight"
+      highlight: 'rgb(111,143,114)'
     }
   }
 
@@ -55,16 +56,19 @@ export default function Board(props) {
     // The board has 8 rows, for each row add 8 columns
     for (let j = 0; j < 8; j++) {
       
-      // If the starting square is the current square, highlight it
-      if (startingSquare === [i, j]) {
-        color = theme.highlight
+      // If the starting square is the current square, highlight it use the color
+      let squareColor;
+      if (areArraysEqual(startingSquare, [i, j])) {
+        squareColor = theme.highlight;
+      } else {
+        squareColor = color;
       }
 
       // Add a square to the row
       boardRow.push(
         <Square 
           key={`${i}${j}`}
-          color={color} 
+          color={squareColor} 
           row={i} 
           column={j} 
           size={squareSize} 
