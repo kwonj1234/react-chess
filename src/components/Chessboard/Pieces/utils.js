@@ -17,13 +17,13 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
   let pieceColor = currentPositions[pieceSq[0]][pieceSq[1]].isWhite;
 
   // Create a temp square that represents the destination square
-  let dest = pieceSq;
-  console.log('top right', result)
+  let dest = [...pieceSq];
+
   // Check what squares are available to the top right
   for (let i = 0; i < 8; i++) {
 
     // Increment the destination square to the top right square of the current square
-    dest[0] += 1;
+    dest[0] -= 1;
     dest[1] += 1;
 
     // If the destination square is available, add it to the results, 
@@ -31,7 +31,7 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
     let querySq = canPieceGoToDest(pieceColor, dest, currentPositions);
     if (querySq.isAvailable) {
 
-      result.append([dest[0], dest[1]]);
+      result.push([...dest]);
 
     }
     if (querySq.break) {
@@ -41,15 +41,14 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
     }
   }
 
-  console.log('bottom right', result)
   // Create a temp square that represents the destination square
-  dest = pieceSq;
+  dest = [...pieceSq];
 
   // Check what squares are available to the bottom right
   for (let i = 0; i < 8; i++) {
 
-    // Increment the temp square to the top right square of the current square
-    dest[0] -= 1;
+    // Increment the temp square to the bottom right square of the current square
+    dest[0] += 1;
     dest[1] += 1;
 
     // If the destination square is available, add it to the results, 
@@ -57,7 +56,7 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
     let querySq = canPieceGoToDest(pieceColor, dest, currentPositions);
     if (querySq.isAvailable) {
 
-      result.append([dest[0], dest[1]]);
+      result.push([...dest]);
 
     }
     if (querySq.break) {
@@ -68,14 +67,13 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
 
   }
 
-  console.log('top left', result)
   // Create a temp square that represents the destination square
-  dest = pieceSq;
+  dest = [...pieceSq];
 
   // Check what squares are available to the top left
   for (let i = 0; i < 8; i++) {
 
-    // Increment the temp square to the top right square of the current square
+    // Increment the temp square to the top left square of the current square
     dest[0] -= 1;
     dest[1] -= 1;
 
@@ -84,7 +82,7 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
     let querySq = canPieceGoToDest(pieceColor, dest, currentPositions);
     if (querySq.isAvailable) {
 
-      result.append([dest[0], dest[1]]);
+      result.push([...dest]);
 
     }
     if (querySq.break) {
@@ -95,14 +93,13 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
 
   }
 
-  console.log('bottom left', result)
   // Create a temp square that represents the destination square
-  dest = pieceSq;
+  dest = [...pieceSq];
 
   // Check what squares are available to the bottom left
   for (let i = 0; i < 8; i++) {
 
-    // Increment the temp square to the top right square of the current square
+    // Increment the temp square to the bottom left square of the current square
     dest[0] += 1;
     dest[1] -= 1;
 
@@ -111,7 +108,7 @@ export function possibleDiagonalSquares(pieceSq, currentPositions) {
     let querySq = canPieceGoToDest(pieceColor, dest, currentPositions);
     if (querySq.isAvailable) {
 
-      result.append([dest[0], dest[1]]);
+      result.push([...dest]);
 
     }
     if (querySq.break) {

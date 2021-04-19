@@ -24,16 +24,16 @@ export default function InitializeClassicChess() {
 
   // The middle four rows are initially empty at the beginning of every game
   let centerRow = Array(8).fill(null);
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     board.push(centerRow);
   }
 
   // Add the seventh row, which is white's row of pawns
-  // let seventhRow = [];
-  // for (let i = 0; i < 8; i++) {
-  //   seventhRow.push(new Pawn(true));
-  // };
-  // board.push(seventhRow)
+  let seventhRow = [];
+  for (let i = 0; i < 8; i++) {
+    seventhRow.push(new Pawn(true));
+  };
+  board.push(seventhRow)
 
   // Add the eighth row, which is white's row of minor and major pieces
   let eighthRow = [new Rook(true), new Knight(true), new Bishop(true), new Queen(true), 
