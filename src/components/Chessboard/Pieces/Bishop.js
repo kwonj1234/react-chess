@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { possibleDiagonalSquares } from './utils';
 
 export default class Bishop extends Component {
   /**
@@ -13,7 +14,7 @@ export default class Bishop extends Component {
   }
 
   /**
-   * Returns a bool to see if a destination is reachable from the current square
+   * Returns a bool to see if a destination is reachable from the current square.
    * @param {*} src Array of 2 numbers representing the coordinate square. 
    * @param {*} dest Array of 2 numbers representing the coordinae square.
    */
@@ -22,6 +23,20 @@ export default class Bishop extends Component {
     // Bishop's can only move diagonally so the change in the x will always be the same as the 
     // the change in the y.
     return Math.abs(src[0] - dest[0]) === Math.abs(src[1] - dest[1]);
+
+  }
+
+  /**
+   * Returns an array of all possible moves for the bishop on the square src, where src is an array
+   * [row, column].
+   * @param {Array} src An array representing the square the bishop is on.
+   * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
+   * on the board
+   */
+  possibleMoves(src ,currentPositions) {
+    console.log('possible moves')
+    // Bishop can only move diagonally so we only have to do the logic for the diagonal squares
+    return possibleDiagonalSquares(src, currentPositions);
 
   }
 

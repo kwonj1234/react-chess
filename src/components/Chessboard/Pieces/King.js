@@ -20,10 +20,11 @@ export default class King extends Component {
   * @param {*} currentPositions 2D matrix containing the current positions on the board, used for 
   * when the king attemps to castle.
   */
-  isMovePossible(src, dest, currentPositions) {
+  isMovePossible(src, dest, currentPositions=[]) {
   
     // King can move in any direction but only 1 square. The difference in the x and y should be 
     // 0 or 1.
+    // TODO: Implement castling
     return (Math.abs(src[0] - dest[0]) === 0 || Math.abs(src[0] - dest[0]) === 1) &&
            (Math.abs(src[1] - dest[1]) === 0 || Math.abs(src[1] - dest[1]) === 1)  
 
