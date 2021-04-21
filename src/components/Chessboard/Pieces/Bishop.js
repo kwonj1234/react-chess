@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { possibleDiagonalSquares } from './utils';
+import { possibleSquaresDiagonal } from './utils';
 
 export default class Bishop extends Component {
   /**
@@ -36,7 +36,7 @@ export default class Bishop extends Component {
   possibleMoves(src ,currentPositions) {
     console.log('possible moves')
     // Bishop can only move diagonally so we only have to do the logic for the diagonal squares
-    return possibleDiagonalSquares(src, currentPositions);
+    return possibleSquaresDiagonal(src, currentPositions);
 
   }
 

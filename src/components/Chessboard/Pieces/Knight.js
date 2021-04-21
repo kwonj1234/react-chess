@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { canPieceGoToDest } from './utils';
 
 export default class Knight extends Component {
   /**
@@ -26,6 +27,42 @@ export default class Knight extends Component {
 
   }
 
+  /**
+   * Returns an array of all possible moves for the knight on the square src, where src is an array
+   * [row, column].
+   * @param {Array} src An array representing the square the bishop is on.
+   * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
+   * on the board
+   */
+  possibleMoves(src ,currentPositions) {
+    // Initialize array for possible moves
+    let possibleMoves = [];
+
+    // Knight can only move in L shapes
+    // Check if the squares above the current square are available
+    if (src[0] - 2 > 2) {
+      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]+1], currentPositions)) possibleMoves.push([src[0]-2, src[1]+1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]-1], currentPositions)) possibleMoves.push([src[0]-2, src[1]-1]);
+    } 
+    // Check if the squares to the right of the current square are available
+    if (src[1] + 2 < 8) {
+      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]+2], currentPositions)) possibleMoves.push([src[0]-1, src[1]+2]);
+      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]+2], currentPositions)) possibleMoves.push([src[0]+1, src[1]+2]);
+    }
+    // Check if the squares below the current squares are available
+    if (src[0] + 2 < 8) {
+      if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]+1], currentPositions)) possibleMoves.push([src[0]+2, src[1]+1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]-1], currentPositions)) possibleMoves.push([src[0]+2, src[1]-1]);
+    }
+    // Check if the squares to the left of the current square are available
+    if (src[0] + 2 < 8) {
+      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]+1], currentPositions)) possibleMoves.push([src[0]-2, src[1]+1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]-1], currentPositions)) possibleMoves.push([src[0]-2, src[1]-1]);
+    }
+
+    return possibleMoves;
+
+  }
   render() {
     return (
       <div>
