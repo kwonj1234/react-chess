@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { possibleSquaresDiagonal, possibleSquaresStraightLine } from './utils';
 
 export default class Queen extends Component {
   /**
@@ -31,6 +32,20 @@ export default class Queen extends Component {
     return false;
   }
 
+  /**
+   * Returns an array of all possible moves for the queen on the square src, where src is an array
+   * [row, column].
+   * @param {Array} src An array representing the square the queen is on.
+   * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
+   * on the board
+   */
+  possibleMoves(src ,currentPositions) {
+
+    // The queen can move diagonally or in straight lines
+    return [ ...possibleSquaresDiagonal(src, currentPositions), ...possibleSquaresStraightLine(src, currentPositions) ]
+
+  }
+  
   render() {
     return (
       <div>

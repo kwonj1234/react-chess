@@ -15,12 +15,12 @@ export default class Pawn extends Component {
   }
 
   /**
-  * Returns a bool to see if a destination is reachable from the current square
-  * @param {*} src Array of 2 numbers representing the coordinate square. 
-  * @param {*} dest Array of 2 numbers representing the coordinae square.
-  * @param {*} isDestOccupied Boolean to see if there is an opposing piece on the coordatinates that dest represents.
-  * @param {*} prevMove Object of the previous move. Used to see if en passant is possible.
-  */
+   * Returns a bool to see if a destination is reachable from the current square
+   * @param {*} src Array of 2 numbers representing the coordinate square. 
+   * @param {*} dest Array of 2 numbers representing the coordinae square.
+   * @param {*} isDestOccupied Boolean to see if there is an opposing piece on the coordatinates that dest represents.
+   * @param {*} prevMove Object of the previous move. Used to see if en passant is possible.
+   */
   isMovePossible(src, dest, isDestOccupied, prevMove) {
 
     // Pawns have a lot of variety, if they are at the initial position they have the option of 
@@ -74,6 +74,61 @@ export default class Pawn extends Component {
 
     return false;
   }
+
+  /**
+   * Returns an array of all possible moves for the pawn on the square src, where src is an array
+   * [row, column].
+   * @param {Array} src An array representing the square the pawn is on.
+   * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
+   * on the board
+   */
+  possibleMoves(src ,currentPositions) {
+    // TODO: Add en passant
+
+    // Initalize return array
+    let result = [];
+
+    // We need to know the pawn color because pawns cannot move backwards, that is to say for black
+    // pieces pawns can only go down the board (x+1) and white pieces can only go up the board (x-1).
+    // We also need to know if the pawn has moved. If it has not it is allowed to move 2 spaces.
+    const isWhite = currentPositions[src[0]][src[1]].isWhite;
+    const hasMoved = currentPositions[src[0]][src[1]].hasMoved;
+
+    if (isWhite) {
+
+      // Only add the square if the square is empty
+      // Add the square directly in front of the pawn
+      if (!currentPositions[src[0]-1][src[1]]) result.push([src[0] - 1, src[1]]);
+      // Add the square two spaces in front of the pawn if the pawn has not moved yet
+      if (!hasMoved && !currentPositions[src[0]-2][src[1]]) result.push([src[0] - 2, src[1]]);
+
+      // If there is an opposing piece diagonally in front of the pawn, the pawn can go there
+      // and capture that piece
+      if (src[1] < 7 && currentPositions[src[0]-1][src[1]+1] !== null && currentPositions[src[0]-1][src[1]+1].isWhite === !isWhite) {
+        result.push([src[0] - 1, src[1] + 1])
+      }
+      if (src[1] > 0 && currentPositions[src[0]-1][src[1]-1] !== null && currentPositions[src[0]-1][src[1]-1].isWhite === !isWhite) {
+        result.push([src[0] - 1, src[1] - 1])
+      }
+    // Do the same thing for the black pieces
+    } else {
+
+      if (!currentPositions[src[0]+1][src[1]]) result.push([src[0] + 1, src[1]]);
+      if (!hasMoved && !currentPositions[src[0]+2][src[1]]) result.push([src[0] + 2, src[1]]);
+
+      if (src[1] < 7 && currentPositions[src[0]+1][src[1]+1] && currentPositions[src[0]+1][src[1]+1].isWhite === !isWhite) {
+        result.push([src[0] + 1, src[1] + 1])
+      }
+      if (src[1] > 0 && currentPositions[src[0]+1][src[1]-1] && currentPositions[src[0]+1][src[1]-1].isWhite === !isWhite) {
+        result.push([src[0] + 1, src[1] - 1])
+      }
+
+    }
+
+    return result;
+
+  }
+
   render() {
     return (
       <div>

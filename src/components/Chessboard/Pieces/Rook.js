@@ -30,7 +30,7 @@ export default class Rook extends Component {
   /**
    * Returns an array of all possible moves for the rook on the square src, where src is an array
    * [row, column].
-   * @param {Array} src An array representing the square the bishop is on.
+   * @param {Array} src An array representing the square the Rook is on.
    * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
    * on the board
    */

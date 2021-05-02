@@ -22,9 +22,6 @@ export default function ClassicChess() {
    */
   const handleSquareClick = (row, column) => {
 
-    console.log(startingSquare, [row, column])
-  
-
     // Situation where there is no starting square
     if (areArraysEqual(startingSquare, [null, null])) {
 
@@ -50,6 +47,10 @@ export default function ClassicChess() {
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
         
+        console.log(`go to square ${row} , ${column}`);
+        console.log(positions[startingSquare[0]][startingSquare[1]])
+        console.log(positions[startingSquare[0]][startingSquare[1]].possibleMoves(startingSquare, positions))
+
       // If the square is occupied by a current player's piece and there was a starting square selected
       // set the clicked square as the new starting square and highlight it
       } else if (positions[row][column].isWhite === isWhitesTurn) {
