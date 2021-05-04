@@ -13,6 +13,8 @@ export default class King extends Component {
     // this.image = isWhite ? './../../chessPiecesImages/WhiteKing.svg' : './../../chessPiecesImages/BlackKing.svg';
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
     this.hasMoved = false;
+    // King has no value, or relatively, it has the most value because once it is captured, it is game over
+    this.value = null;
   }
   
   /**

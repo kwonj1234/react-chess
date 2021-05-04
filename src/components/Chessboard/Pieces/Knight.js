@@ -11,6 +11,7 @@ export default class Knight extends Component {
     this.isWhite = isWhite;
     // this.image = isWhite ? "./../../../../public/chessPiecesImages/WhiteKnight.svg" : "./../../../../public/chessPiecesImages/BlackKnight.svg";
     this.image = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg";
+    this.value = 3;
   }
 
   /**
