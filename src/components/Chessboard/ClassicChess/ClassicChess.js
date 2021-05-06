@@ -10,10 +10,50 @@ export default function ClassicChess() {
   const [isWhitesTurn, setTurn] = useState(true); // True is white's turn, false is black's turn
   // Square from which a piece starts from
   const [startingSquare, setStartingSquare] = useState([null, null]);
+  // Possible moves for selected piece
+  const [possibleMoves, setPossibleMoves] = useState([]);
+  // Record of captured pieces
+  const [capturedWhitePieces, setCapturedWhitePieces] = useState([]);
+  const [capturedBlackPieces, setCapturedBlackPieces] = useState([]);
 
   useEffect(() => {
     
   }, [])
+
+  /**
+   * Function to search for move inside list of moves
+   * @param {*} dest Array of length 2, Array representing the square you want to move to
+   * @param {*} possibleMovesArray Array of Array's, All possible moves for the currently selected 
+   */
+  function isMovePossible(dest, possibleMovesArray) {
+
+    // If possibleMoves length is greater than 0, search through it to see if the dest square exists
+    // within possibleMoves
+    if (possibleMovesArray.length > 0) {
+
+      // For each move compare the first and second index to the first and second index of dest.
+      // move and dest will both be always length of 2
+      for (const move of possibleMovesArray) {
+
+        if (move[0] === dest[0] && move[1] === dest[1]) {
+
+          return true;
+        
+        }
+
+      }
+
+    // If possibleMoves length is 0 than there are no possible moves 
+    } else {
+
+      return false;
+
+    }
+
+    // If the function reaches this point, it means the move does not exist within possibleMoves.
+    return false;
+
+  } 
 
   /**
    * Function to handle when a user clicks on a square
@@ -37,7 +77,8 @@ export default function ClassicChess() {
         console.log("Select starting square")
         let temp = [row, column]
         setStartingSquare(temp)
-
+        setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
+        console.log(possibleMoves)
       }
 
     // Situation where there is a starting square selected
@@ -47,9 +88,57 @@ export default function ClassicChess() {
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
         
-        console.log(`go to square ${row} , ${column}`);
-        console.log(positions[startingSquare[0]][startingSquare[1]])
-        console.log(positions[startingSquare[0]][startingSquare[1]].possibleMoves(startingSquare, positions))
+        // If the move is possible, set new positions and set the turn to the next player
+        if (isMovePossible([row, column], possibleMoves)) {
+
+          // If there's a piece on the destination square, add it to the captured pieces list
+          if (positions[row][column]) {
+
+            if (isWhitesTurn) {
+
+              let tempCapturedPieces = [...capturedBlackPieces];
+              tempCapturedPieces.push(positions[row][column]);
+              setCapturedBlackPieces([...tempCapturedPieces])
+
+            } else {
+
+              let tempCapturedPieces = [...capturedWhitePieces];
+              tempCapturedPieces.push(positions[row][column]);
+              setCapturedWhitePieces([...tempCapturedPieces])
+
+            };
+
+          };
+
+          // To update a 2D array in state, we must iterate through the arrays and return the value
+          // we want at that point.
+          setPositions(prevState => 
+            prevState.map((tempRow, i) => 
+              tempRow.map((tempSquare, j) => {
+                if (i === startingSquare[0] && j === startingSquare[1]) {
+                  return null;
+                } else if (i === row && j === column) {
+                  return positions[startingSquare[0]][startingSquare[1]];
+                } else {
+                  return tempSquare;
+                }
+              })
+            ) 
+          );
+
+          setStartingSquare([null, null]);
+          setPossibleMoves([]);
+          setTurn(!isWhitesTurn);
+
+        // If the move is not possible, reset startingSquare and possibleMoves
+        } else {
+
+          setStartingSquare([null, null]);
+          setPossibleMoves([]);
+
+        }
+        console.log(possibleMoves)
+        console.log(isMovePossible([row, column], possibleMoves))
 
       // If the square is occupied by a current player's piece and there was a starting square selected
       // set the clicked square as the new starting square and highlight it
@@ -57,13 +146,12 @@ export default function ClassicChess() {
 
         let temp = [row, column]
         setStartingSquare(temp)
+        setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
+        console.log(possibleMoves)
 
       // From the starting square to the selected square, see if that move is possible for the 
       // piece on the starting square
       } else {
-
-        console.log(`go to square ${row} , ${column}`);
-        console.log(positions[startingSquare[0]][startingSquare[1]].possibleMoves(startingSquare, positions))
 
       }
 
