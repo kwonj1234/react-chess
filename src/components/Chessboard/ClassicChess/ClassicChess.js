@@ -15,6 +15,8 @@ export default function ClassicChess() {
   // Record of captured pieces
   const [capturedWhitePieces, setCapturedWhitePieces] = useState([]);
   const [capturedBlackPieces, setCapturedBlackPieces] = useState([]);
+  // Record of all the moves made thus far
+  const [moves, setMoves] = useState([]);
 
   useEffect(() => {
     
@@ -91,8 +93,19 @@ export default function ClassicChess() {
         // If the move is possible, set new positions and set the turn to the next player
         if (isMovePossible([row, column], possibleMoves)) {
 
+          // Initalize move record
+          let move = {
+            isWhite: isWhitesTurn,
+            start: startingSquare,
+            dest: [row, column],
+            captured: null
+          }
+
           // If there's a piece on the destination square, add it to the captured pieces list
           if (positions[row][column]) {
+
+            // Add the captured piece to the move record
+            move.captured = positions[row][column]
 
             if (isWhitesTurn) {
 
@@ -126,6 +139,7 @@ export default function ClassicChess() {
             ) 
           );
 
+          setMoves(prevState => [...prevState, move])
           setStartingSquare([null, null]);
           setPossibleMoves([]);
           setTurn(!isWhitesTurn);
