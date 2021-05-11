@@ -90,6 +90,9 @@ export default function ClassicChess() {
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
         
+        // Set the hasMoved property of the piece to true
+        positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
+        
         // If the move is possible, set new positions and set the turn to the next player
         if (isMovePossible([row, column], possibleMoves)) {
 
@@ -140,6 +143,7 @@ export default function ClassicChess() {
           );
 
           setMoves(prevState => [...prevState, move])
+          console.log(moves)
           setStartingSquare([null, null]);
           setPossibleMoves([]);
           setTurn(!isWhitesTurn);
