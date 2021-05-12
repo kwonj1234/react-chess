@@ -125,6 +125,68 @@ export function possibleSquaresDiagonal(pieceSq, currentPositions) {
 }
 
 /**
+ * Returns a bool to see if a destination is reachable, diagonally, from the current square. 
+ * @param {Array} src Array of 2 numbers representing the coordinate square. 
+ * @param {Array} dest Array of 2 numbers representing the coordinae square.
+ * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+ * on the board
+ */
+export function isDiagonalMovePossible(src, dest, currentPositions) {
+  
+  // Figure out color of the piece we are looking at
+  const isWhite = currentPositions[src[0]][src[1]].isWhite;
+
+  // For a diagonal move, the change in the x will always be the same as the 
+  // the change in the y.
+  if (Math.abs(src[0] - dest[0]) === 0 && Math.abs(src[1] - dest[1]) === 0) {
+
+    return true
+
+  } else if (Math.abs(src[0] - dest[0]) === Math.abs(src[1] - dest[1])) {
+
+    // Change in the x and y axis
+    const deltaX = src[1] - dest[1];
+    const deltaY = src[0] - dest[0];
+
+    // Number of squares between the src square and the destination square
+    const numOfSquares = Math.abs(src[0] - dest[0])
+
+    // For each square between the destination square and the source square, check to see that it is
+    // empty. You cannot move through pieces.
+    for (let i = 1; i < numOfSquares; i++) {
+
+      // Increment the src square to each of the squares between the dest and the src
+      deltaX > 0 ? src[1] += 1 : src[1] -= 1;
+      deltaY > 0 ? src[0] += 1 : src[0] -= 1;
+
+      // If there is a piece on a square between the src and dest, the piece we are looking at cannot
+      // pass. Even if it's an opposing piece it must first capture the piece before getting to the 
+      // dest square.
+      if (currentPositions[src[0]][src[1]]) {
+
+        return false;
+
+      } 
+
+    }
+
+    // Check the destination square. If it is the same color as the current piece, we cannot have 
+    // two pieces of the same color occupying the same square, return false. If it's an opposing
+    // piece of empty square return true.
+    if (!currentPositions[dest[0]][dest[1]] || currentPositions[dest[0]][dest[1]].isWhite !== isWhite) {
+
+      return true;
+
+    }
+
+  }
+
+  // If code reaches this point, the bishop cannot move to the destination, return false.
+  return false;
+
+}
+
+/**
  * Returns an array of all possible squares that the piece can reach by going horizontally or 
  * vertically from its current position
  * @param {Array} pieceSq The current square of the piece you are querying represented as an array

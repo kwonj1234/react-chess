@@ -92,7 +92,7 @@ export default function ClassicChess() {
         
         // Set the hasMoved property of the piece to true
         positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
-        
+
         // If the move is possible, set new positions and set the turn to the next player
         if (isMovePossible([row, column], possibleMoves)) {
 
@@ -113,14 +113,12 @@ export default function ClassicChess() {
             if (isWhitesTurn) {
 
               let tempCapturedPieces = [...capturedBlackPieces];
-              tempCapturedPieces.push(positions[row][column]);
-              setCapturedBlackPieces([...tempCapturedPieces])
+              setCapturedBlackPieces([...tempCapturedPieces, positions[row][column]])
 
             } else {
 
               let tempCapturedPieces = [...capturedWhitePieces];
-              tempCapturedPieces.push(positions[row][column]);
-              setCapturedWhitePieces([...tempCapturedPieces])
+              setCapturedWhitePieces([...tempCapturedPieces, positions[row][column]])
 
             };
 
