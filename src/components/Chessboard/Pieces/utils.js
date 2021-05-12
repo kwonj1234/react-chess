@@ -145,8 +145,8 @@ export function isDiagonalMovePossible(src, dest, currentPositions) {
   } else if (Math.abs(src[0] - dest[0]) === Math.abs(src[1] - dest[1])) {
 
     // Change in the x and y axis
-    const deltaX = src[1] - dest[1];
-    const deltaY = src[0] - dest[0];
+    const deltaX = dest[1] - src[1];
+    const deltaY = dest[0] - src[0];
 
     // Number of squares between the src square and the destination square
     const numOfSquares = Math.abs(src[0] - dest[0])
@@ -172,7 +172,7 @@ export function isDiagonalMovePossible(src, dest, currentPositions) {
 
     // Check the destination square. If it is the same color as the current piece, we cannot have 
     // two pieces of the same color occupying the same square, return false. If it's an opposing
-    // piece of empty square return true.
+    // piece or empty square return true.
     if (!currentPositions[dest[0]][dest[1]] || currentPositions[dest[0]][dest[1]].isWhite !== isWhite) {
 
       return true;
@@ -303,6 +303,77 @@ export function possibleSquaresStraightLine(pieceSq, currentPositions) {
 
   // return result array
   return result;
+
+};
+
+/**
+ * Returns a bool to see if a destination is reachable from the current square by moving in a 
+ * straight line. 
+ * @param {Array} src Array of 2 numbers representing the coordinate square. 
+ * @param {Array} dest Array of 2 numbers representing the coordinae square.
+ * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+ * on the board
+ */
+ export function isStraightLineMovePossible(src, dest, currentPositions) {
+  
+  // Figure out color of the piece we are looking at
+  const isWhite = currentPositions[src[0]][src[1]].isWhite;
+
+  // For a straight line move, the row or column will always be the same.
+  if (src[0] === dest[0] && src[1] === dest[1]) {
+
+    return true
+
+  } else if (src[0] === dest[0] || src[1] === dest[1]) {
+
+    // Initialize variable to record the number of squares between the src square and the 
+    // destination square.
+    let numOfSquares;
+    // Initialize variable to record which index we are looking at, the one representing the row
+    // or the column
+    let index;
+
+    // If the row is the same then the number of squares between the src square and the destination
+    // square is the difference in the column. Vice versa if the column is the same.
+    if (src[0] === dest[0]) {
+      numOfSquares = dest[1] - src[1];
+      index = 1;
+    } else {
+      numOfSquares = dest[0] - src[0];
+      index = 0;
+    }
+
+    // For each square between the destination square and the source square, check to see that it is
+    // empty. You cannot move through pieces.
+    for (let i = 1; i < Math.abs(numOfSquares); i++) {
+
+      // Increment the src square to each of the squares between the dest and the src
+      numOfSquares > 0 ? src[index] += 1 : src[index] -= 1;
+
+      // If there is a piece on a square between the src and dest, the piece we are looking at cannot
+      // pass. Even if it's an opposing piece it must first capture the piece before getting to the 
+      // dest square.
+      if (currentPositions[src[0]][src[1]]) {
+
+        return false;
+
+      } 
+
+    }
+
+    // Check the destination square. If it is the same color as the current piece, we cannot have 
+    // two pieces of the same color occupying the same square, return false. If it's an opposing
+    // piece or empty square return true.
+    if (!currentPositions[dest[0]][dest[1]] || currentPositions[dest[0]][dest[1]].isWhite !== isWhite) {
+
+      return true;
+
+    }
+
+  }
+
+  // If code reaches this point, the bishop cannot move to the destination, return false.
+  return false;
 
 }
 
