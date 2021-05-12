@@ -17,12 +17,13 @@ export default class Pawn extends Component {
 
   /**
    * Returns a bool to see if a destination is reachable from the current square
-   * @param {*} src Array of 2 numbers representing the coordinate square. 
-   * @param {*} dest Array of 2 numbers representing the coordinae square.
-   * @param {*} isDestOccupied Boolean to see if there is an opposing piece on the coordatinates that dest represents.
-   * @param {*} prevMove Object of the previous move. Used to see if en passant is possible.
+   * @param {Array} src Array of 2 numbers representing the coordinate square. 
+   * @param {Array} dest Array of 2 numbers representing the coordinae square.
+   * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+   * on the board
+   * @param {Object} prevMove Object of the previous move. Used to see if en passant is possible.
    */
-  isMovePossible(src, dest, isDestOccupied, prevMove) {
+  isMovePossible(src, dest, currentPositions, prevMove) {
 
     // Pawns have a lot of variety, if they are at the initial position they have the option of 
     // moving 2 spaces as well as 1, en passant, capturing diagonally
@@ -30,15 +31,27 @@ export default class Pawn extends Component {
     // Pawns for white will behave opposite to the black pawns relative to the grid
     if (this.isWhite) {
       
-      // Pawn marches 1 square foward
-      if (src[0] - 1 === dest[0] && src[1] === dest[1]) {
+      // Pawn marches 1 square foward, make sure there is no piece on that square
+      if (src[0] - 1 === dest[0] && src[1] === dest[1] && !currentPositions[dest[0]][dest[1]]) {
         return true;
       // Pawn was at starting square and then goes 2 squares forward
-      } else if (src[0] === 6 && src[0] - 2 === dest[0] && src[1] === dest[1]) {
+      } else if (!this.hasMoved && src[0] - 2 === dest[0] && src[1] === dest[1]) {
+
+        // make sure the 2 squares in front of the pawn do not have a piece on them.
+        for (let i = 1; i < 3; i++) {
+          
+          if (currentPositions[src[0] - i][src[1]]) {
+            return false;
+          }
+        }
+
         return true;
+
       // Capturing
-      } else if (isDestOccupied && src[0] - 1 === dest[0] && Math.abs(src[1] - dest[1]) === 1) {
+      } else if (currentPositions[dest[0]][dest[1]] && currentPositions[dest[0]][dest[1]].isWhite !== this.isWhite
+         && src[0] - 1 === dest[0] && Math.abs(src[1] - dest[1]) === 1) {
         return true;
+
       // En passant
       // Previous move has to have been black moving a pawn 2 squares from its starting position. 
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
@@ -54,13 +67,20 @@ export default class Pawn extends Component {
 
       // Pawn marches 1 square foward
       if (src[0] + 1 === dest[0] && src[1] === dest[1]) {
+
         return true;
+
       // Pawn was at starting square and then goes 2 squares forward
       } else if (src[0] === 6 && src[0] + 2 === dest[0] && src[1] === dest[1]) {
+
         return true;
+
       // Capturing
-      } else if (isDestOccupied && src[0] + 1 === dest[0] && Math.abs(src[1] - dest[1]) === 1) {
+      } else if (currentPositions[dest[0]][dest[1]] && currentPositions[dest[0]][dest[1]].isWhite !== this.isWhite
+         && src[0] + 1 === dest[0] && Math.abs(src[1] - dest[1]) === 1) {
+
         return true;
+        
       // En passant
       // Previous move has to have been black moving a pawn 2 squares from its starting position. 
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
@@ -73,7 +93,9 @@ export default class Pawn extends Component {
 
     }
 
+    // If code reaches this point, the bishop cannot move to the destination, return false.
     return false;
+
   }
 
   /**
