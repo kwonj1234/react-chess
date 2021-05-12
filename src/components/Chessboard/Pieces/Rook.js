@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { possibleSquaresStraightLine } from './utils';
+import { possibleSquaresStraightLine, isStraightLineMovePossible } from './utils';
 
 export default class Rook extends Component {
   /**
@@ -16,15 +16,16 @@ export default class Rook extends Component {
   }
 
   /**
-  * Returns a bool to see if a destination is reachable from the current square
-  * @param {*} src Array of 2 numbers representing the coordinate square. 
-  * @param {*} dest Array of 2 numbers representing the coordinae square.
-  */
-  isMovePossible(src, dest) {
+   * Returns a bool to see if a destination is reachable from the current square.
+   * @param {Array} src Array of 2 numbers representing the coordinate square. 
+   * @param {Array} dest Array of 2 numbers representing the coordinae square.
+   * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+   * on the board
+   */
+  isMovePossible(src, dest, currentPositions) {
 
     // Rook can only move in one direction, if x changes, the y stays the same and vice versa
-    return (src[0] !== dest[0] && src[1] === dest[1]) ||
-           (src[1] !== dest[1] && src[0] === dest[0]) 
+    return isStraightLineMovePossible(src, dest, currentPositions);
 
   }
 

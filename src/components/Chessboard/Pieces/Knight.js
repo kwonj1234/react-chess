@@ -15,16 +15,35 @@ export default class Knight extends Component {
   }
 
   /**
-  * Returns a bool to see if a destination is reachable from the current square
-  * @param {*} src Array of 2 numbers representing the coordinate square. 
-  * @param {*} dest Array of 2 numbers representing the coordinae square.
-  */
-  isMovePossible(src, dest) {
+   * Returns a bool to see if a destination is reachable from the current square.
+   * @param {Array} src Array of 2 numbers representing the coordinate square. 
+   * @param {Array} dest Array of 2 numbers representing the coordinae square.
+   * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+   * on the board
+   */
+  isMovePossible(src, dest, currentPositions) {
+
+    // Figure out color of the piece we are looking at
+    const isWhite = currentPositions[src[0]][src[1]].isWhite;
 
     // Knight is tricky in that it move in a L shape. 2 squares along one axis and then 1 square
     // along the opposite axis
-    return (Math.abs(src[0] - dest[0]) === 2 && Math.abs(src[1] - dest[1]) === 1) ||
-           (Math.abs(src[1] - dest[1]) === 2 && Math.abs(src[0] - dest[0]) === 1)
+    if ((Math.abs(src[0] - dest[0]) === 2 && Math.abs(src[1] - dest[1]) === 1) ||
+      (Math.abs(src[1] - dest[1]) === 2 && Math.abs(src[0] - dest[0]) === 1)) {
+
+      // Check the destination square. If it is the same color as the current piece, we cannot have 
+      // two pieces of the same color occupying the same square, return false. If it's an opposing
+      // piece or empty square return true.
+      if (!currentPositions[dest[0]][dest[1]] || currentPositions[dest[0]][dest[1]].isWhite !== isWhite) {
+
+        return true;
+
+      }
+
+    }
+
+    // If the code reaches this point, the knight cannot move to the destination square, return false
+    return false; 
 
   }
 

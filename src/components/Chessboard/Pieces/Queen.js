@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { possibleSquaresDiagonal, possibleSquaresStraightLine } from './utils';
+import { isDiagonalMovePossible, isStraightLineMovePossible } from './utils';
 
 export default class Queen extends Component {
   /**
@@ -15,22 +16,16 @@ export default class Queen extends Component {
   }
   
   /**
-  * Returns a bool to see if a destination is reachable from the current square
-  * @param {*} src Array of 2 numbers representing the coordinate square. 
-  * @param {*} dest Array of 2 numbers representing the coordinae square.
-  */
-  isMovePossible(src, dest) {
+   * Returns a bool to see if a destination is reachable from the current square.
+   * @param {Array} src Array of 2 numbers representing the coordinate square. 
+   * @param {Array} dest Array of 2 numbers representing the coordinae square.
+   * @param {Array} currentPositions 2D Array representing the current positions of all the pieces 
+   * on the board
+   */
+  isMovePossible(src, dest, currentPositions) {
 
     // Queen can move diagonally like the bishop or horizontally like the rook
-    // Condition for Bishop
-    if (Math.abs(src[0] - dest[0]) === Math.abs(src[1] - dest[1])) {
-      return true;
-    // Condition for Rook
-    } else if ((src[0] !== dest[0] && src[1] === dest[1]) || (src[1] !== dest[1] && src[0] === dest[0])) {
-      return true;
-    }
-
-    return false;
+    return isDiagonalMovePossible(src, dest, currentPositions) || isStraightLineMovePossible(src, dest, currentPositions);
   }
 
   /**
