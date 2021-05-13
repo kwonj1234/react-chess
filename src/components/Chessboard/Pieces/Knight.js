@@ -60,25 +60,17 @@ export default class Knight extends Component {
 
     // Knight can only move in L shapes
     // Check if the squares above the current square are available
-    if (src[0] - 2 > 2) {
-      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]+1], currentPositions)) possibleMoves.push([src[0]-2, src[1]+1]);
-      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]-1], currentPositions)) possibleMoves.push([src[0]-2, src[1]-1]);
-    } 
+    if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]+1], currentPositions).isAvailable) possibleMoves.push([src[0]-2, src[1]+1]);
+    if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]-1], currentPositions).isAvailable) possibleMoves.push([src[0]-2, src[1]-1]);
     // Check if the squares to the right of the current square are available
-    if (src[1] + 2 < 8) {
-      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]+2], currentPositions)) possibleMoves.push([src[0]-1, src[1]+2]);
-      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]+2], currentPositions)) possibleMoves.push([src[0]+1, src[1]+2]);
-    }
+    if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]+2], currentPositions).isAvailable) possibleMoves.push([src[0]-1, src[1]+2]);
+    if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]+2], currentPositions).isAvailable) possibleMoves.push([src[0]+1, src[1]+2]);
     // Check if the squares below the current squares are available
-    if (src[0] + 2 < 8) {
-      if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]+1], currentPositions)) possibleMoves.push([src[0]+2, src[1]+1]);
-      if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]-1], currentPositions)) possibleMoves.push([src[0]+2, src[1]-1]);
-    }
+    if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]+1], currentPositions).isAvailable) possibleMoves.push([src[0]+2, src[1]+1]);
+    if (canPieceGoToDest(this.isWhite, [src[0]+2, src[1]-1], currentPositions).isAvailable) possibleMoves.push([src[0]+2, src[1]-1]);
     // Check if the squares to the left of the current square are available
-    if (src[0] + 2 < 8) {
-      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]+1], currentPositions)) possibleMoves.push([src[0]-2, src[1]+1]);
-      if (canPieceGoToDest(this.isWhite, [src[0]-2, src[1]-1], currentPositions)) possibleMoves.push([src[0]-2, src[1]-1]);
-    }
+    if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]-2], currentPositions).isAvailable) possibleMoves.push([src[0]-1, src[1]-2]);
+    if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]-2], currentPositions).isAvailable) possibleMoves.push([src[0]+1, src[1]-2]);
 
     return possibleMoves;
 

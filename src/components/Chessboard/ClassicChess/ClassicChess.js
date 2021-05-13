@@ -45,13 +45,9 @@ export default function ClassicChess() {
 
       }
 
-    // If possibleMoves length is 0 than there are no possible moves 
-    } else {
-
-      return false;
-
     }
 
+    // If possibleMoves length is 0 than there are no possible moves 
     // If the function reaches this point, it means the move does not exist within possibleMoves.
     return false;
 
@@ -70,7 +66,7 @@ export default function ClassicChess() {
       // If there is no startingSquare and the user selects an empty square, or selects a square 
       // occupied by the opposing piece do not do anything
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
-        console.log("EMPTY SQUARE")
+
         return;
 
       // If the square is occupied by a current player's piece and there was no starting square selected
@@ -80,7 +76,6 @@ export default function ClassicChess() {
         let temp = [row, column]
         setStartingSquare(temp)
         setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
-        console.log(possibleMoves)
       }
 
     // Situation where there is a starting square selected
@@ -89,7 +84,8 @@ export default function ClassicChess() {
       // Situation where the user tries to move a piece from one square to an empty square, or a 
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
-        
+        console.log(startingSquare)
+        console.log(possibleMoves)
         // Set the hasMoved property of the piece to true
         positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
 
@@ -98,6 +94,7 @@ export default function ClassicChess() {
 
           // Initalize move record
           let move = {
+            piece: positions[startingSquare[0]][startingSquare[1]].constructor.name,
             isWhite: isWhitesTurn,
             start: startingSquare,
             dest: [row, column],
@@ -108,7 +105,7 @@ export default function ClassicChess() {
           if (positions[row][column]) {
 
             // Add the captured piece to the move record
-            move.captured = positions[row][column]
+            move.captured = positions[row][column].constructor.name;
 
             if (isWhitesTurn) {
 
@@ -140,8 +137,9 @@ export default function ClassicChess() {
             ) 
           );
 
+          console.log(possibleMoves)
+
           setMoves(prevState => [...prevState, move])
-          console.log(moves)
           setStartingSquare([null, null]);
           setPossibleMoves([]);
           setTurn(!isWhitesTurn);
@@ -153,8 +151,6 @@ export default function ClassicChess() {
           setPossibleMoves([]);
 
         }
-        console.log(possibleMoves)
-        console.log(isMovePossible([row, column], possibleMoves))
 
       // If the square is occupied by a current player's piece and there was a starting square selected
       // set the clicked square as the new starting square and highlight it
@@ -163,11 +159,6 @@ export default function ClassicChess() {
         let temp = [row, column]
         setStartingSquare(temp)
         setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
-        console.log(possibleMoves)
-
-      // From the starting square to the selected square, see if that move is possible for the 
-      // piece on the starting square
-      } else {
 
       }
 

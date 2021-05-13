@@ -388,7 +388,7 @@ export function possibleSquaresStraightLine(pieceSq, currentPositions) {
 export function canPieceGoToDest(isWhite, dest, currentPositions) {
 
   // If the tempSq goes out of the board break
-  if ((dest[0] > 7 || dest[0] < 1 || dest[1] > 7 || dest[1] < 0)) {
+  if ((dest[0] > 7 || dest[0] < 0 || dest[1] > 7 || dest[1] < 0)) {
 
     return {
       break: true,

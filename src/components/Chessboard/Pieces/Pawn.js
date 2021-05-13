@@ -56,7 +56,7 @@ export default class Pawn extends Component {
       // Previous move has to have been black moving a pawn 2 squares from its starting position. 
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
       // has to be the square behind black's pawn that moved previously.
-      } else if (prevMove.piece === "Pawn" && prevMove.src[0] === 1 && prevMove.dest[0] === 3
+      } else if (prevMove && prevMove.piece === "Pawn" && prevMove.src[0] === 1 && prevMove.dest[0] === 3
           && src[0] === 3 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[0] === prevMove.dest[0]
           && dest[1] === prevMove.dest[1] - 1) {
         return true
@@ -85,7 +85,7 @@ export default class Pawn extends Component {
       // Previous move has to have been black moving a pawn 2 squares from its starting position. 
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
       // has to be the square behind black's pawn that moved previously.
-      } else if (prevMove.piece === "Pawn" && prevMove.src[0] === 6 && prevMove.dest[0] === 4
+      } else if (prevMove && prevMove.piece === "Pawn" && prevMove.src[0] === 6 && prevMove.dest[0] === 4
           && src[0] === 4 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[0] === prevMove.dest[0]
           && dest[1] === prevMove.dest[1] + 1) {
         return true

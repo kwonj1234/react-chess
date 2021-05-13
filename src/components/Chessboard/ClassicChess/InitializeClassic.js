@@ -12,7 +12,7 @@ export default function InitializeClassicChess() {
 
   // Add the first row, which would be row of black's minor and major pieces
   let firstRow = [new Rook(false), new Knight(false), new Bishop(false), new Queen(false), 
-    new King(false), new Knight(false), new Bishop(false), new Rook(false)];
+    new King(false), new Bishop(false), new Knight(false), new Rook(false)];
   board.push(firstRow)
 
   // Add the second row, which is black's row of pawns
@@ -37,7 +37,7 @@ export default function InitializeClassicChess() {
 
   // Add the eighth row, which is white's row of minor and major pieces
   let eighthRow = [new Rook(true), new Knight(true), new Bishop(true), new Queen(true), 
-    new King(true), new Knight(true), new Bishop(true), new Rook(true)];
+    new King(true), new Bishop(true), new Knight(true), new Rook(true)];
   board.push(eighthRow)
 
   // Return the populated board

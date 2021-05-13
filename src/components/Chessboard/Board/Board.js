@@ -7,7 +7,6 @@ export default function Board(props) {
   // deconstruct props
   let { theme, positions, onClick, startingSquare } = props;
 
-  console.log('positions', positions)
   // Initalize state
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
