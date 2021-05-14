@@ -60,6 +60,11 @@ export default function ClassicChess() {
    */
   const handleSquareClick = (row, column) => {
 
+    // If the game is over do nothing when a square is clicked
+    if (isWhitesTurn === "game over") {
+      return;
+    }
+
     // Situation where there is no starting square
     if (areArraysEqual(startingSquare, [null, null])) {
 
@@ -72,10 +77,10 @@ export default function ClassicChess() {
       // If the square is occupied by a current player's piece and there was no starting square selected
       // set the clicked square as the starting square and highlight it
       } else if (positions[row][column].isWhite === isWhitesTurn) {
-        console.log("Select starting square")
-        let temp = [row, column]
-        setStartingSquare(temp)
-        setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
+
+        setStartingSquare([row, column])
+        setPossibleMoves([...positions[row][column].possibleMoves([row, column], positions)])
+
       }
 
     // Situation where there is a starting square selected
@@ -84,8 +89,7 @@ export default function ClassicChess() {
       // Situation where the user tries to move a piece from one square to an empty square, or a 
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
-        console.log(startingSquare)
-        console.log(possibleMoves)
+
         // Set the hasMoved property of the piece to true
         positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
 
@@ -137,12 +141,15 @@ export default function ClassicChess() {
             ) 
           );
 
-          console.log(possibleMoves)
-
           setMoves(prevState => [...prevState, move])
           setStartingSquare([null, null]);
           setPossibleMoves([]);
-          setTurn(!isWhitesTurn);
+
+          if (move.captured === "King") {
+            setTurn("game over");
+          } else {
+            setTurn(!isWhitesTurn);
+          }
 
         // If the move is not possible, reset startingSquare and possibleMoves
         } else {
