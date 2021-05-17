@@ -170,8 +170,8 @@ export default class Pawn extends Component {
 
       if (prevMove && prevMove.piece === "Pawn") {
         if (prevMove.start[0] === 6 && prevMove.dest[0] === 4) {
-          if (Math.abs(src[1] - prevMove.dest[1] === 1)) {
-            result.push([src[0] + 1, prevMove.start[1]])
+          if (Math.abs(src[1] - prevMove.dest[1]) === 1) {
+            result.push([src[0] + 1, prevMove.start[1], true])
           }
         }
       }

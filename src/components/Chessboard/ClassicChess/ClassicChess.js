@@ -145,6 +145,9 @@ export default function ClassicChess() {
 
           // To update a 2D array in state, we must iterate through the arrays and return the value
           // we want at that point.
+          console.log(row - 1, column)
+          console.log(possibleMove.length === 3)
+          console.log(!isWhitesTurn)
           setPositions(prevState => 
             prevState.map((tempRow, i) => 
               tempRow.map((tempSquare, j) => {
@@ -157,6 +160,7 @@ export default function ClassicChess() {
                   return null
                 // Black en passant
                 } else if (possibleMove.length === 3 && !isWhitesTurn && i === row - 1 && j === column) {
+                  console.log(i, j)
                   return null
                 } else {
                   return tempSquare;
