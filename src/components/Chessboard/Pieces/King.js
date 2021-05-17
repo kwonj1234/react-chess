@@ -46,8 +46,6 @@ export default class King extends Component {
     // Initialize array for possible moves
     let possibleMoves = [];
 
-    console.log('possible moves')
-
     // King can move in any direction but only one square
     // Check all squares above the king
     if (src[0] - 1 > 0) {

@@ -37,7 +37,7 @@ export default class Rook extends Component {
    * on the board
    */
   possibleMoves(src ,currentPositions) {
-    console.log('possible moves')
+
     // Rook can only move in straight lines so we only have to do the logic for the horizontal
     // and vertical squares
     return possibleSquaresStraightLine(src, currentPositions);

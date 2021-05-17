@@ -23,7 +23,7 @@ export default class Pawn extends Component {
    * on the board
    * @param {Object} prevMove Object of the previous move. Used to see if en passant is possible.
    */
-  isMovePossible(src, dest, currentPositions, prevMove) {
+  isMovePossible(src, dest, currentPositions, prevMove = null) {
 
     // Pawns have a lot of variety, if they are at the initial position they have the option of 
     // moving 2 spaces as well as 1, en passant, capturing diagonally
@@ -57,8 +57,8 @@ export default class Pawn extends Component {
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
       // has to be the square behind black's pawn that moved previously.
       } else if (prevMove && prevMove.piece === "Pawn" && prevMove.src[0] === 1 && prevMove.dest[0] === 3
-          && src[0] === 3 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[0] === prevMove.dest[0]
-          && dest[1] === prevMove.dest[1] - 1) {
+          && src[0] === 3 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[1] === prevMove.dest[1]
+          && dest[0] === prevMove.dest[0] - 1) {
         return true
       }
 
@@ -86,8 +86,8 @@ export default class Pawn extends Component {
       // White's pawn has to be next to the pawn that moved the previous move. Target destination 
       // has to be the square behind black's pawn that moved previously.
       } else if (prevMove && prevMove.piece === "Pawn" && prevMove.src[0] === 6 && prevMove.dest[0] === 4
-          && src[0] === 4 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[0] === prevMove.dest[0]
-          && dest[1] === prevMove.dest[1] + 1) {
+          && src[0] === 4 && Math.abs(src[1] - prevMove.dest[1] === 1) && dest[1] === prevMove.dest[1]
+          && dest[0] === prevMove.dest[0] + 1) {
         return true
       }
 
@@ -104,10 +104,12 @@ export default class Pawn extends Component {
    * @param {Array} src An array representing the square the pawn is on.
    * @param {Array} currentPositions The 2D matrix representing the current positions of the pieces
    * on the board
+   * @param {Object} prevMove Object of the previous move. Used to see if en passant is possible.
    */
-  possibleMoves(src ,currentPositions) {
+  possibleMoves(src ,currentPositions, prevMove = null) {
     // TODO: Add en passant
 
+    console.log(prevMove)
     // Initalize return array
     let result = [];
 
@@ -122,6 +124,7 @@ export default class Pawn extends Component {
       // Only add the square if the square is empty
       // Add the square directly in front of the pawn
       if (!currentPositions[src[0]-1][src[1]]) result.push([src[0] - 1, src[1]]);
+
       // Add the square two spaces in front of the pawn if the pawn has not moved yet
       if (!hasMoved && !currentPositions[src[0]-2][src[1]]) result.push([src[0] - 2, src[1]]);
 
@@ -133,10 +136,30 @@ export default class Pawn extends Component {
       if (src[1] > 0 && currentPositions[src[0]-1][src[1]-1] !== null && currentPositions[src[0]-1][src[1]-1].isWhite === !isWhite) {
         result.push([src[0] - 1, src[1] - 1])
       }
+
+      // Check if en passant is possible
+      // The previous move has to have been the opposing pawn moving from its' starting position, 
+      // 2 spaces forward and coming next to the current Pawn.
+      
+      // Make sure previous move was a pawn
+      if (prevMove && prevMove.piece === "Pawn") {
+
+        // Make sure previous pawn move was a pawn moving from starting position, 2 spaces forward
+        if (prevMove.start[0] === 1 && prevMove.dest[0] === 3) {
+
+          // Make sure previous move landed directly next the current pawn
+          if (Math.abs(src[1] - prevMove.dest[1] === 1)) {
+
+            result.push([src[0] - 1, prevMove.start[1], true])
+          }
+        }
+      }
+
     // Do the same thing for the black pieces
     } else {
 
       if (!currentPositions[src[0]+1][src[1]]) result.push([src[0] + 1, src[1]]);
+
       if (!hasMoved && !currentPositions[src[0]+2][src[1]]) result.push([src[0] + 2, src[1]]);
 
       if (src[1] < 7 && currentPositions[src[0]+1][src[1]+1] && currentPositions[src[0]+1][src[1]+1].isWhite === !isWhite) {
@@ -146,8 +169,16 @@ export default class Pawn extends Component {
         result.push([src[0] + 1, src[1] - 1])
       }
 
+      if (prevMove && prevMove.piece === "Pawn") {
+        if (prevMove.start[0] === 6 && prevMove.dest[0] === 4) {
+          if (Math.abs(src[1] - prevMove.dest[1] === 1)) {
+            result.push([src[0] + 1, prevMove.start[1]])
+          }
+        }
+      }
     }
 
+    console.log(result)
     return result;
 
   }

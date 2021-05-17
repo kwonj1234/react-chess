@@ -34,12 +34,12 @@ export default function ClassicChess() {
     if (possibleMovesArray.length > 0) {
 
       // For each move compare the first and second index to the first and second index of dest.
-      // move and dest will both be always length of 2
+      // move and dest will both be always length of 2, unless it's en passant
       for (const move of possibleMovesArray) {
 
         if (move[0] === dest[0] && move[1] === dest[1]) {
 
-          return true;
+          return move;
         
         }
 
@@ -79,7 +79,18 @@ export default function ClassicChess() {
       } else if (positions[row][column].isWhite === isWhitesTurn) {
 
         setStartingSquare([row, column])
-        setPossibleMoves([...positions[row][column].possibleMoves([row, column], positions)])
+
+        // Pawns can en passant so they need to know the last move to get all possible moves, all
+        // other pieces do not need this.
+        // If there are no moves made, also use the normal possibleMoves. possibleMoves method for 
+        // Pawns have a default value for the third parameter
+        console.log(moves.length)
+        console.log(moves[moves.length - 1])
+        if (moves.length > 0 && positions[row][column].constructor.name === "Pawn") {
+          setPossibleMoves([ ...positions[row][column].possibleMoves([row, column], positions, moves[moves.length - 1]) ])
+        } else {
+          setPossibleMoves([...positions[row][column].possibleMoves([row, column], positions)])
+        }
 
       }
 
@@ -94,7 +105,9 @@ export default function ClassicChess() {
         positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
 
         // If the move is possible, set new positions and set the turn to the next player
-        if (isMovePossible([row, column], possibleMoves)) {
+        const possibleMove = isMovePossible([row, column], possibleMoves)
+
+        if (possibleMove) {
 
           // Initalize move record
           let move = {
@@ -123,6 +136,11 @@ export default function ClassicChess() {
 
             };
 
+          // If the possibleMove's length is 3, it is en passant
+          } else if (possibleMove.length === 3) {
+
+            move.captured = "Pawn";
+
           };
 
           // To update a 2D array in state, we must iterate through the arrays and return the value
@@ -133,7 +151,13 @@ export default function ClassicChess() {
                 if (i === startingSquare[0] && j === startingSquare[1]) {
                   return null;
                 } else if (i === row && j === column) {
-                  return positions[startingSquare[0]][startingSquare[1]];
+                  return prevState[startingSquare[0]][startingSquare[1]];
+                // White en passant
+                } else if (possibleMove.length === 3 && isWhitesTurn && i === row - 1 && j === column) {
+                  return null
+                // Black en passant
+                } else if (possibleMove.length === 3 && !isWhitesTurn && i === row + 1 && j === column) {
+                  return null
                 } else {
                   return tempSquare;
                 }
