@@ -140,16 +140,15 @@ export default class Pawn extends Component {
       // Check if en passant is possible
       // The previous move has to have been the opposing pawn moving from its' starting position, 
       // 2 spaces forward and coming next to the current Pawn.
-      
       // Make sure previous move was a pawn
       if (prevMove && prevMove.piece === "Pawn") {
-
+        console.log("its a pawn")
         // Make sure previous pawn move was a pawn moving from starting position, 2 spaces forward
         if (prevMove.start[0] === 1 && prevMove.dest[0] === 3) {
-
+          console.log("2 spaces")
           // Make sure previous move landed directly next the current pawn
-          if (Math.abs(src[1] - prevMove.dest[1] === 1)) {
-
+          if (Math.abs(src[1] - prevMove.dest[1]) === 1) {
+            console.log("next to it")
             result.push([src[0] - 1, prevMove.start[1], true])
           }
         }
@@ -178,7 +177,6 @@ export default class Pawn extends Component {
       }
     }
 
-    console.log(result)
     return result;
 
   }

@@ -153,10 +153,10 @@ export default function ClassicChess() {
                 } else if (i === row && j === column) {
                   return prevState[startingSquare[0]][startingSquare[1]];
                 // White en passant
-                } else if (possibleMove.length === 3 && isWhitesTurn && i === row - 1 && j === column) {
+                } else if (possibleMove.length === 3 && isWhitesTurn && i === row + 1 && j === column) {
                   return null
                 // Black en passant
-                } else if (possibleMove.length === 3 && !isWhitesTurn && i === row + 1 && j === column) {
+                } else if (possibleMove.length === 3 && !isWhitesTurn && i === row - 1 && j === column) {
                   return null
                 } else {
                   return tempSquare;
