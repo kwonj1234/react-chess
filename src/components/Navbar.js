@@ -4,7 +4,7 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <span>
-        <button>Play Chess</button>
+        <button className="navbar-button">Play Chess</button>
       </span>
     </div>
   )
