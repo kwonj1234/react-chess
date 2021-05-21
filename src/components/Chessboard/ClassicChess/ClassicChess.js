@@ -151,8 +151,6 @@ export default function ClassicChess() {
           // Set the starting square to null as the moving piece is no longer there
           tempPostitions[startingSquare[0]][startingSquare[1]] = null;
 
-          console.log(tempPostitions);
-
           // In case of a special move
           if (possibleMove.length === 3) {
 
@@ -170,22 +168,24 @@ export default function ClassicChess() {
             // In the case of castling
             } else if (possibleMove[2] === "castle") {
 
-              // Set the hasMoved value to true for the castling rook
-              tempPostitions[row][0].hasMoved = true;
 
               // Queen side castling
               if (startingSquare[1] > possibleMove[1]) {
 
+                // Set the hasMoved value to true for the castling rook
+                tempPostitions[row][0].hasMoved = true;
                 // Move queen side rook from the start of the row to next to the king
-                tempPostitions[row][column - 1] = tempPostitions[row][0]
+                tempPostitions[row][column + 1] = tempPostitions[row][0]
                 tempPostitions[row][0] = null;
 
               // King side castling
               } else if (startingSquare[1] < possibleMove[1]) {
 
+                // Set the hasMoved value to true for the castling rook
+                tempPostitions[row][7].hasMoved = true;
                 // Move queen side rook from the start of the row to next to the king
-                tempPostitions[row][column + 1] = tempPostitions[row][0]
-                tempPostitions[row][0] = null;
+                tempPostitions[row][column - 1] = tempPostitions[row][7]
+                tempPostitions[row][7] = null;
 
               }
 

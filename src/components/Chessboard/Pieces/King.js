@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Rook } from '.';
 import { canPieceGoToDest } from './utils';
 
 export default class King extends Component {
@@ -51,27 +50,27 @@ export default class King extends Component {
     if (src[0] - 1 > 0) {
 
       // top left
-      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]-1], currentPositions)) possibleMoves.push([src[0]-1, src[1]-1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]-1], currentPositions).isAvailable) possibleMoves.push([src[0]-1, src[1]-1]);
       // directly above
-      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]], currentPositions)) possibleMoves.push([src[0]-1, src[1]]);
+      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]], currentPositions).isAvailable) possibleMoves.push([src[0]-1, src[1]]);
       // top right
-      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]+1], currentPositions)) possibleMoves.push([src[0]-1, src[1]+1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]-1, src[1]+1], currentPositions).isAvailable) possibleMoves.push([src[0]-1, src[1]+1]);
 
     }
     // Check all squares below the king
     if (src[0] + 1 < 8) {
 
       // bottom left
-      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]-1], currentPositions)) possibleMoves.push([src[0]+1, src[1]-1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]-1], currentPositions).isAvailable) possibleMoves.push([src[0]+1, src[1]-1]);
       // directly below
-      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]], currentPositions)) possibleMoves.push([src[0]+1, src[1]]);
+      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]], currentPositions).isAvailable) possibleMoves.push([src[0]+1, src[1]]);
       // bottom right
-      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]+1], currentPositions)) possibleMoves.push([src[0]+1, src[1]+1]);
+      if (canPieceGoToDest(this.isWhite, [src[0]+1, src[1]+1], currentPositions).isAvailable) possibleMoves.push([src[0]+1, src[1]+1]);
 
     }
     // Check squares to the left and right 
-    if (canPieceGoToDest(this.isWhite, [src[0], src[1]-1], currentPositions)) possibleMoves.push([src[0], src[1]-1]);
-    if (canPieceGoToDest(this.isWhite, [src[0], src[1]+1], currentPositions)) possibleMoves.push([src[0], src[1]+1]);
+    if (canPieceGoToDest(this.isWhite, [src[0], src[1]-1], currentPositions).isAvailable) possibleMoves.push([src[0], src[1]-1]);
+    if (canPieceGoToDest(this.isWhite, [src[0], src[1]+1], currentPositions).isAvailable) possibleMoves.push([src[0], src[1]+1]);
 
     // Check for possibilites of castling
     // Castling can only occur if the king and the target rook have not moved and if all squares 
@@ -82,7 +81,7 @@ export default class King extends Component {
       // Check that squares between rook and king are empty
       if (!currentPositions[src[0]][src[1]-1] && !currentPositions[src[0]][src[1]-2] && !currentPositions[src[0]][src[1]-3]
         // Check that there is a rook at the end square and has not moved
-        && currentPositions[src[0]][src[1]-4] && currentPositions[src[0]][src[1]-4].constructor.name === Rook && !currentPositions[src[0]][src[1]-4].hasMoved) {
+        && currentPositions[src[0]][src[1]-4] && currentPositions[src[0]][src[1]-4].constructor.name === "Rook" && !currentPositions[src[0]][src[1]-4].hasMoved) {
 
           possibleMoves.push([src[0], src[1]-2, "castle"])
 
@@ -91,7 +90,7 @@ export default class King extends Component {
       // Check that squares between rook and king are empty
       if (!currentPositions[src[0]][src[1]+1] && !currentPositions[src[0]][src[1]+2]
         // Check that there is a rook at the end square and has not moved
-        && currentPositions[src[0]][src[1]+3] && currentPositions[src[0]][src[1]+3].constructor.name === Rook && !currentPositions[src[0]][src[1]+3].hasMoved) {
+        && currentPositions[src[0]][src[1]+3] && currentPositions[src[0]][src[1]+3].constructor.name === "Rook" && !currentPositions[src[0]][src[1]+3].hasMoved) {
 
           possibleMoves.push([src[0], src[1]+2, "castle"])
 
