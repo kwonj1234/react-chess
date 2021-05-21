@@ -84,8 +84,6 @@ export default function ClassicChess() {
         // other pieces do not need this.
         // If there are no moves made, also use the normal possibleMoves. possibleMoves method for 
         // Pawns have a default value for the third parameter
-        console.log(moves.length)
-        console.log(moves[moves.length - 1])
         if (moves.length > 0 && positions[row][column].constructor.name === "Pawn") {
           setPossibleMoves([ ...positions[row][column].possibleMoves([row, column], positions, moves[moves.length - 1]) ])
         } else {
@@ -101,13 +99,16 @@ export default function ClassicChess() {
       // square with an opposing piece on it
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
 
-        // Set the hasMoved property of the piece to true
-        positions[startingSquare[0]][startingSquare[1]].hasMoved = true;
-
         // If the move is possible, set new positions and set the turn to the next player
         const possibleMove = isMovePossible([row, column], possibleMoves)
 
         if (possibleMove) {
+
+          // To update a 2D array in state, we must iterate through the arrays and return the value
+          // we want at that point.
+          let tempPostitions = positions.map(function(arr) {
+            return arr.slice();
+          });
 
           // Initalize move record
           let move = {
@@ -143,30 +144,81 @@ export default function ClassicChess() {
 
           };
 
-          // To update a 2D array in state, we must iterate through the arrays and return the value
-          // we want at that point.
-          console.log(row - 1, column)
-          console.log(possibleMove.length === 3)
-          console.log(!isWhitesTurn)
+          // Set the hasMoved property of the piece to true and move the piece
+          tempPostitions[startingSquare[0]][startingSquare[1]].hasMoved = true;
+          // Set the destination square to be the the moving piece
+          tempPostitions[row][column] = tempPostitions[startingSquare[0]][startingSquare[1]];
+          // Set the starting square to null as the moving piece is no longer there
+          tempPostitions[startingSquare[0]][startingSquare[1]] = null;
+
+          console.log(tempPostitions);
+
+          // In case of a special move
+          if (possibleMove.length === 3) {
+
+            // In the case of en passant
+            // White en passant
+            if (possibleMove[2] === "en passant" && isWhitesTurn) {
+
+              tempPostitions[row + 1][column] = null;
+
+            // Black en passant
+            } else if (possibleMove[2] === "en passant" && !isWhitesTurn) {
+
+              tempPostitions[row - 1][column] = null;
+
+            // In the case of castling
+            } else if (possibleMove[2] === "castle") {
+
+              // Set the hasMoved value to true for the castling rook
+              tempPostitions[row][0].hasMoved = true;
+
+              // Queen side castling
+              if (startingSquare[1] > possibleMove[1]) {
+
+                // Move queen side rook from the start of the row to next to the king
+                tempPostitions[row][column - 1] = tempPostitions[row][0]
+                tempPostitions[row][0] = null;
+
+              // King side castling
+              } else if (startingSquare[1] < possibleMove[1]) {
+
+                // Move queen side rook from the start of the row to next to the king
+                tempPostitions[row][column + 1] = tempPostitions[row][0]
+                tempPostitions[row][0] = null;
+
+              }
+
+            };
+
+          };
+
+          // setPositions(prevState => 
+          //   prevState.map((tempRow, i) => 
+          //     tempRow.map((tempSquare, j) => {
+          //       if (i === startingSquare[0] && j === startingSquare[1]) {
+          //         return null;
+          //       } else if (i === row && j === column) {
+          //         return prevState[startingSquare[0]][startingSquare[1]];
+          //       // White en passant
+          //       } else if (possibleMove.length === 3 && possibleMove[2] === "en passant" && isWhitesTurn && i === row + 1 && j === column) {
+          //         return null
+          //       // Black en passant
+          //       } else if (possibleMove.length === 3 && possibleMove[2] === "en passant" && !isWhitesTurn && i === row - 1 && j === column) {
+          //         return null
+          //       } else {
+          //         return tempSquare;
+          //       }
+          //     })
+          //   ) 
+          // );
+
           setPositions(prevState => 
             prevState.map((tempRow, i) => 
-              tempRow.map((tempSquare, j) => {
-                if (i === startingSquare[0] && j === startingSquare[1]) {
-                  return null;
-                } else if (i === row && j === column) {
-                  return prevState[startingSquare[0]][startingSquare[1]];
-                // White en passant
-                } else if (possibleMove.length === 3 && isWhitesTurn && i === row + 1 && j === column) {
-                  return null
-                // Black en passant
-                } else if (possibleMove.length === 3 && !isWhitesTurn && i === row - 1 && j === column) {
-                  console.log(i, j)
-                  return null
-                } else {
-                  return tempSquare;
-                }
-              })
-            ) 
+              tempRow.map((tempSquare, j) => 
+                tempPostitions[i][j]
+              )
+            )
           );
 
           setMoves(prevState => [...prevState, move])
@@ -187,7 +239,7 @@ export default function ClassicChess() {
 
         }
 
-      // If the square is occupied by a current player's piece and there was a starting square selected
+      // If the square is occupied by the current player's piece and there was a starting square selected
       // set the clicked square as the new starting square and highlight it
       } else if (positions[row][column].isWhite === isWhitesTurn) {
 

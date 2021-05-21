@@ -82,18 +82,18 @@ export default class King extends Component {
       // Check that squares between rook and king are empty
       if (!currentPositions[src[0]][src[1]-1] && !currentPositions[src[0]][src[1]-2] && !currentPositions[src[0]][src[1]-3]
         // Check that there is a rook at the end square and has not moved
-        && typeof currentPositions[src[0]][src[1]-4] === Rook && !currentPositions[src[0]][src[1]-4].hasMoved) {
+        && currentPositions[src[0]][src[1]-4] && currentPositions[src[0]][src[1]-4].constructor.name === Rook && !currentPositions[src[0]][src[1]-4].hasMoved) {
 
-          possibleMoves.push([src[0], src[1]-2])
+          possibleMoves.push([src[0], src[1]-2, "castle"])
 
       }
       // Check king side castling
       // Check that squares between rook and king are empty
       if (!currentPositions[src[0]][src[1]+1] && !currentPositions[src[0]][src[1]+2]
         // Check that there is a rook at the end square and has not moved
-        && typeof currentPositions[src[0]][src[1]-4] === Rook && !currentPositions[src[0]][src[1]-4].hasMoved) {
+        && currentPositions[src[0]][src[1]+3] && currentPositions[src[0]][src[1]+3].constructor.name === Rook && !currentPositions[src[0]][src[1]+3].hasMoved) {
 
-          possibleMoves.push([src[0], src[1]+2])
+          possibleMoves.push([src[0], src[1]+2, "castle"])
 
       }
     }
