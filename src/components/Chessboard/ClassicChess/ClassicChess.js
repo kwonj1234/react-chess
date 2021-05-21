@@ -137,7 +137,7 @@ export default function ClassicChess() {
             };
 
           // If the possibleMove's length is 3, it is en passant
-          } else if (possibleMove.length === 3) {
+          } else if (possibleMove.length === 3 && possibleMove[2] === "en passant") {
 
             move.captured = "Pawn";
 
