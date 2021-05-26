@@ -12,8 +12,19 @@ export default function PromotionModal(props) {
   const rookImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg";
   
   return (
-    <div>
-      
+    <div className="PromotionModal">
+      <button className="promotionButton">
+        <img src={bishopImage}/>
+      </button>
+      <button className="promotionButton">
+        <img src={knightImage}/>
+      </button>
+      <button className="promotionButton">
+        <img src={rookImage}/>
+      </button>
+      <button className="promotionButton">
+        <img src={queenImage}/>
+      </button>
     </div>
   )
 }
