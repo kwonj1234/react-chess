@@ -8,26 +8,20 @@ export default function Board(props) {
   let { theme, positions, onClick, startingSquare } = props;
 
   // Initalize state
-  const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
   const [squareSize, setSize] = useState(120)
 
   // Add event listeners for changes in the window height and width
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
+      if (window.innerHeight < window.innerWidth) {
+        setSize(window.innerHeight / 9)
+      } else {
+        setSize(window.innerWidth / 9)
+      };
+  
     });
-  }, []);
 
-  // Add useEffect for changes in height and width variables and change squareSize accordingly
-  useEffect(() => {
-    if (height < width) {
-      setSize(height / 9)
-    } else {
-      setSize(width / 9)
-    };
-  }, [height, width])
+  }, []);
 
   // Set default theme
   if (!theme) {
