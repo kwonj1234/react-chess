@@ -1,8 +1,10 @@
 import React from 'react'
 
 export default function Square(props) {
+
   // Deconstruct props
   const { color, row, column, size, pieceImage, onClick } = props;
+
   // Initialize variables for square background and image for drag
   let backgroundImage = null;
   let dragImage = null;
@@ -57,7 +59,7 @@ export default function Square(props) {
     <div 
       id='square'
       className={`square`}
-      key={`square${row}${column}`} 
+      key={ column ? `square${row}${column}` : `promotion${row}`} 
       style={{
         width: size, 
         height: size, 

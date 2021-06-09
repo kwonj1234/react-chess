@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Board from '../Board';
-import { areArraysEqual } from '../../utils';
 import InitializeClassic from './InitializeClassic';
+import { areArraysEqual } from '../../utils';
+import PromotionModal from '../../PromotionModal';
 
 export default function ClassicChess() {
   
