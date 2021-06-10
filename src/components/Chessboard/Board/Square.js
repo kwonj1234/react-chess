@@ -59,7 +59,7 @@ export default function Square(props) {
     <div 
       id='square'
       className={`square`}
-      key={ column ? `square${row}${column}` : `promotion${row}`} 
+      key={`square${row}${column}`} 
       style={{
         width: size, 
         height: size, 

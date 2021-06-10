@@ -67,7 +67,6 @@ export default function Board(props) {
           row={i} 
           column={j} 
           size={squareSize} 
-          startingSquare={startingSquare}
           pieceImage={positions[i][j] ? positions[i][j].image : null}
           onClick={onClick}
         />

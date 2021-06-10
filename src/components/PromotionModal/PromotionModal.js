@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Square } from '../Chessboard';
 
 /**
@@ -17,6 +17,22 @@ export default function PromotionModal(props) {
 
   // Deconstruct props
   const { isOpen, isWhite, onClose, onSelect } = props;
+
+  // Initalize state
+  // const [squareSize, setSize] = useState(120)
+
+  // Add event listeners for changes in the window height and width
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => {
+  //     if (window.innerHeight < window.innerWidth) {
+  //       setSize(window.innerHeight / 9)
+  //     } else {
+  //       setSize(window.innerWidth / 9)
+  //     };
+  
+  //   });
+
+  // }, []);
   
   // Images for pieces
   const bishopImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg";
@@ -29,18 +45,34 @@ export default function PromotionModal(props) {
 
     return (
       <div className="PromotionModal">
-        <button className="promotionButton">
-          <img src={bishopImage}/>
-        </button>
-        <button className="promotionButton">
-          <img src={knightImage}/>
-        </button>
-        <button className="promotionButton">
-          <img src={rookImage}/>
-        </button>
-        <button className="promotionButton">
-          <img src={queenImage}/>
-        </button>
+        <div 
+          className={`square`}
+          style={{
+            backgroundImage: `url(${queenImage})`,
+          }} 
+          onClick={() => onSelect('Queen')}
+        />
+        <div 
+          className={`square`}
+          style={{
+            backgroundImage: `url(${rookImage})`,
+          }} 
+          onClick={() => onSelect('Rook')}
+        />
+        <div 
+          className={`square`}
+          style={{
+            backgroundImage: `url(${bishopImage})`,
+          }} 
+          onClick={() => onSelect('Bishop')}
+        />
+        <div 
+          className={`square`}
+          style={{
+            backgroundImage: `url(${knightImage})`,
+          }} 
+          onClick={() => onSelect('Knight')}
+        />
       </div>
     );
 
