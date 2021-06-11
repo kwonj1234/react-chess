@@ -199,7 +199,9 @@ export default function ClassicChess() {
           // In the case of pawn promotion
           if (positions[startingSquare[0]][startingSquare[1]].constructor.name === "Pawn" && (row === 7 || row === 0)) {
 
+            console.log("Promote");
             setPromotionModalOpen(true);
+            return;
 
           }
 
