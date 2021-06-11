@@ -8,11 +8,12 @@ export default function Board(props) {
   let { theme, positions, onClick, startingSquare } = props;
 
   // Initalize state
-  const [squareSize, setSize] = useState(120)
+  const [squareSize, setSize] = useState(window.innerHeight < window.innerWidth ? window.innerHeight / 9 : window.innerWidth / 9);
 
   // Add event listeners for changes in the window height and width
   useEffect(() => {
     window.addEventListener("resize", () => {
+
       if (window.innerHeight < window.innerWidth) {
         setSize(window.innerHeight / 9)
       } else {

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Square } from '../Chessboard';
+import React from 'react'
 
 /**
  * Modal to display when a pawn reaches the other side of the board and promotes. User will be able

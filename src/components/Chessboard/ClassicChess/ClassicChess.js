@@ -18,6 +18,8 @@ export default function ClassicChess() {
   const [capturedBlackPieces, setCapturedBlackPieces] = useState([]);
   // Record of all the moves made thus far
   const [moves, setMoves] = useState([]);
+  // State for promotion modal, if a pawn tries to promote.
+  const [isPromotionModalOpen, setPromotionModalOpen] = useState(false);
 
   useEffect(() => {
     
@@ -194,25 +196,12 @@ export default function ClassicChess() {
 
           };
 
-          // setPositions(prevState => 
-          //   prevState.map((tempRow, i) => 
-          //     tempRow.map((tempSquare, j) => {
-          //       if (i === startingSquare[0] && j === startingSquare[1]) {
-          //         return null;
-          //       } else if (i === row && j === column) {
-          //         return prevState[startingSquare[0]][startingSquare[1]];
-          //       // White en passant
-          //       } else if (possibleMove.length === 3 && possibleMove[2] === "en passant" && isWhitesTurn && i === row + 1 && j === column) {
-          //         return null
-          //       // Black en passant
-          //       } else if (possibleMove.length === 3 && possibleMove[2] === "en passant" && !isWhitesTurn && i === row - 1 && j === column) {
-          //         return null
-          //       } else {
-          //         return tempSquare;
-          //       }
-          //     })
-          //   ) 
-          // );
+          // In the case of pawn promotion
+          if (positions[startingSquare[0]][startingSquare[1]].constructor.name === "Pawn" && (row === 7 || row === 0)) {
+
+            setPromotionModalOpen(true);
+
+          }
 
           setPositions(prevState => 
             prevState.map((tempRow, i) => 
@@ -256,6 +245,7 @@ export default function ClassicChess() {
 
   return (
     <div className="game">
+      <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} />
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
     </div>
   )
