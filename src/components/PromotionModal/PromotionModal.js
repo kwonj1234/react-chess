@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 /**
  * Modal to display when a pawn reaches the other side of the board and promotes. User will be able
@@ -18,20 +18,20 @@ export default function PromotionModal(props) {
   const { isOpen, isWhite, onClose, onSelect } = props;
 
   // Initalize state
-  // const [squareSize, setSize] = useState(120)
+  const [squareSize, setSize] = useState(window.innerHeight < window.innerWidth ? window.innerHeight / 9 : window.innerWidth / 9)
 
   // Add event listeners for changes in the window height and width
-  // useEffect(() => {
-  //   window.addEventListener("resize", () => {
-  //     if (window.innerHeight < window.innerWidth) {
-  //       setSize(window.innerHeight / 9)
-  //     } else {
-  //       setSize(window.innerWidth / 9)
-  //     };
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerHeight < window.innerWidth) {
+        setSize(window.innerHeight / 9)
+      } else {
+        setSize(window.innerWidth / 9)
+      };
   
-  //   });
+    });
 
-  // }, []);
+  }, []);
   
   // Images for pieces
   const bishopImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg";
@@ -45,30 +45,38 @@ export default function PromotionModal(props) {
     return (
       <div className="PromotionModal">
         <div 
-          className={`square`}
+          className={`promoteSquare`}
           style={{
             backgroundImage: `url(${queenImage})`,
+            width: squareSize, 
+            height: squareSize, 
           }} 
           onClick={() => onSelect('Queen')}
         />
         <div 
-          className={`square`}
+          className={`promoteSquare`}
           style={{
             backgroundImage: `url(${rookImage})`,
+            width: squareSize, 
+            height: squareSize, 
           }} 
           onClick={() => onSelect('Rook')}
         />
         <div 
-          className={`square`}
+          className={`promoteSquare`}
           style={{
             backgroundImage: `url(${bishopImage})`,
+            width: squareSize, 
+            height: squareSize, 
           }} 
           onClick={() => onSelect('Bishop')}
         />
         <div 
-          className={`square`}
+          className={`promoteSquare`}
           style={{
             backgroundImage: `url(${knightImage})`,
+            width: squareSize, 
+            height: squareSize, 
           }} 
           onClick={() => onSelect('Knight')}
         />

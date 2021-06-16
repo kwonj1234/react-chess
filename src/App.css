@@ -40,6 +40,15 @@
   background-size: cover;
 }
 
+.PromotionModal {
+  display: flex;
+}
+
+.promoteSquare {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .dragImage {
   background-color: transparent;
   align-items: center;
