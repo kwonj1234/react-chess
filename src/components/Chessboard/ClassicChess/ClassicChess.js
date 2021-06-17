@@ -26,6 +26,13 @@ export default function ClassicChess() {
   }, [])
 
   /**
+   * Function to close the promotion modal
+   */
+  function handleModalClose() {
+    setPromotionModalOpen(false);
+  }
+
+  /**
    * Function to search for move inside list of moves
    * @param {*} dest Array of length 2, Array representing the square you want to move to
    * @param {*} possibleMovesArray Array of Array's, All possible moves for the currently selected 
@@ -247,7 +254,7 @@ export default function ClassicChess() {
 
   return (
     <div className="game">
-      <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} />
+      {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} onClose={handleModalClose}/> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
     </div>
   )

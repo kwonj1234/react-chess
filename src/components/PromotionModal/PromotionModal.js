@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Modal from '../modal';
 
 /**
  * Modal to display when a pawn reaches the other side of the board and promotes. User will be able
@@ -17,76 +18,85 @@ export default function PromotionModal(props) {
   // Deconstruct props
   const { isOpen, isWhite, onClose, onSelect } = props;
 
-  // Initalize state
-  const [squareSize, setSize] = useState(window.innerHeight < window.innerWidth ? window.innerHeight / 9 : window.innerWidth / 9)
-
-  // Add event listeners for changes in the window height and width
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerHeight < window.innerWidth) {
-        setSize(window.innerHeight / 9)
-      } else {
-        setSize(window.innerWidth / 9)
-      };
-  
-    });
-
-  }, []);
-  
   // Images for pieces
   const bishopImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg";
   const knightImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg";
   const queenImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
   const rookImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg";
-  
-  // If isOpen is true return the modal, else return nothing
-  if (isOpen) {
+    
+  // Initalize state
+  const [squareSize, setSize] = useState(window.innerHeight < window.innerWidth ? window.innerHeight / 9 : window.innerWidth / 9);
 
-    return (
-      <div className="PromotionModal">
-        <div 
-          className={`promoteSquare`}
-          style={{
-            backgroundImage: `url(${queenImage})`,
-            width: squareSize, 
-            height: squareSize, 
-          }} 
-          onClick={() => onSelect('Queen')}
-        />
-        <div 
-          className={`promoteSquare`}
-          style={{
-            backgroundImage: `url(${rookImage})`,
-            width: squareSize, 
-            height: squareSize, 
-          }} 
-          onClick={() => onSelect('Rook')}
-        />
-        <div 
-          className={`promoteSquare`}
-          style={{
-            backgroundImage: `url(${bishopImage})`,
-            width: squareSize, 
-            height: squareSize, 
-          }} 
-          onClick={() => onSelect('Bishop')}
-        />
-        <div 
-          className={`promoteSquare`}
-          style={{
-            backgroundImage: `url(${knightImage})`,
-            width: squareSize, 
-            height: squareSize, 
-          }} 
-          onClick={() => onSelect('Knight')}
-        />
-      </div>
-    );
-
-  } else {
-
-    return null;
-
+  // Functions to run on mount when event listeners are added
+  function handleResize() {
+    if (window.innerHeight < window.innerWidth) {
+      setSize(window.innerHeight / 9)
+    } else {
+      setSize(window.innerWidth / 9)
+    };
   }
+
+  function handleClose() {
+    if(isOpen) onClose()
+  };
+
+  // Add event listeners for changes in the window height and width
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+
+    window.addEventListener("click", handleClose, false)
+
+    return function cleanUpListeners() {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("click", handleClose);
+    }
+  });
+
+  // If isOpen is true return the modal, else return nothing
+  return isOpen ?
+    (
+      <Modal id="promotionModal">
+        <div className="promotionModal">
+          <div 
+            className={`promoteSquare`}
+            style={{
+              backgroundImage: `url(${queenImage})`,
+              width: squareSize, 
+              height: squareSize, 
+            }} 
+            onClick={() => onSelect('Queen')}
+          />
+          <div 
+            className={`promoteSquare`}
+            style={{
+              backgroundImage: `url(${rookImage})`,
+              width: squareSize, 
+              height: squareSize, 
+            }} 
+            onClick={() => onSelect('Rook')}
+          />
+          <div 
+            className={`promoteSquare`}
+            style={{
+              backgroundImage: `url(${bishopImage})`,
+              width: squareSize, 
+              height: squareSize, 
+            }} 
+            onClick={() => onSelect('Bishop')}
+          />
+          <div 
+            className={`promoteSquare`}
+            style={{
+              backgroundImage: `url(${knightImage})`,
+              width: squareSize, 
+              height: squareSize, 
+            }} 
+            onClick={() => onSelect('Knight')}
+          />
+        </div>
+      </Modal>
+
+    )
+  : null
 
 }
