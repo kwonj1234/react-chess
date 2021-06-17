@@ -32,6 +32,10 @@ export default function ClassicChess() {
     setPromotionModalOpen(false);
   }
 
+  function handlePromotionSelect(promotion) {
+    
+  }
+
   /**
    * Function to search for move inside list of moves
    * @param {*} dest Array of length 2, Array representing the square you want to move to
