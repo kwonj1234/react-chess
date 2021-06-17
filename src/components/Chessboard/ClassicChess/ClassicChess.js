@@ -32,8 +32,19 @@ export default function ClassicChess() {
     setPromotionModalOpen(false);
   }
 
+  /**
+   * Function to handle when user selects a piece to promote to in the promotion modal.
+   * @param {String} promotion Queen, Rook, Bishop, Knight
+   */
   function handlePromotionSelect(promotion) {
-    
+
+    if (promotion === "Queen" || promotion === "Rook" || promotion === "Bishop" || promotion === "Knight") {
+
+
+      handleModalClose(false);
+
+    }
+
   }
 
   /**
@@ -210,7 +221,6 @@ export default function ClassicChess() {
           // In the case of pawn promotion
           if (positions[startingSquare[0]][startingSquare[1]].constructor.name === "Pawn" && (row === 7 || row === 0)) {
 
-            console.log("Promote");
             setPromotionModalOpen(true);
             return;
 
