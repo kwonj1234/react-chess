@@ -56,6 +56,7 @@ export default function ClassicChess() {
    * Function to close the promotion modal
    */
   function handleModalClose() {
+    handlePrevMove(true);
     setPromotionModalOpen(false);
   }
   
