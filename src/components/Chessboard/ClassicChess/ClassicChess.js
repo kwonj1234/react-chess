@@ -32,12 +32,10 @@ export default function ClassicChess() {
    * @param {Boolean} deletePreviousMove If you want to undo a move completely, removes the last move in the moves array;
    */
   function handlePrevMove(deletePreviousMove=false) {
-    console.log("movesIndex", movesIndex.current);
-    console.log("moves", moves.current.length)
 
     // Do not run function if there is no move to go back to
     if (moves.current.length > 0 && movesIndex.current > 0) {
-      console.log("RUN")
+
       movesIndex.current = movesIndex.current - 1;
       const previousPositions = previousMove(positions, moves.current[movesIndex.current]);
       changePositionsState(previousPositions);
