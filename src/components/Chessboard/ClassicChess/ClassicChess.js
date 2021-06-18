@@ -3,6 +3,7 @@ import Board from '../Board';
 import InitializeClassic from './InitializeClassic';
 import { areArraysEqual } from '../../utils';
 import PromotionModal from '../../PromotionModal';
+import { previousMove } from '../utils';
 
 export default function ClassicChess() {
   
@@ -40,6 +41,8 @@ export default function ClassicChess() {
 
     if (promotion === "Queen" || promotion === "Rook" || promotion === "Bishop" || promotion === "Knight") {
 
+      // Once you know what the user wants to promote the pawn to, replace the pawn with the promoted piece.
+      // Use the last move in the moves array
 
       handleModalClose(false);
 
@@ -218,14 +221,6 @@ export default function ClassicChess() {
 
           };
 
-          // In the case of pawn promotion
-          if (positions[startingSquare[0]][startingSquare[1]].constructor.name === "Pawn" && (row === 7 || row === 0)) {
-
-            setPromotionModalOpen(true);
-            return;
-
-          }
-
           setPositions(prevState => 
             prevState.map((tempRow, i) => 
               tempRow.map((tempSquare, j) => 
@@ -240,9 +235,19 @@ export default function ClassicChess() {
 
           if (move.captured === "King") {
             setTurn("game over");
-          } else {
-            setTurn(!isWhitesTurn);
           }
+
+          // In the case of pawn promotion
+          if (positions[startingSquare[0]][startingSquare[1]].constructor.name === "Pawn" && (row === 7 || row === 0)) {
+
+            setPromotionModalOpen(true);
+            return;
+
+          }
+
+          // SetTurn is after the pawn promotion check because the turn is not over for the player 
+          // while they take time to decide what they want to promote the pawn to.
+          setTurn(!isWhitesTurn);
 
         // If the move is not possible, reset startingSquare and possibleMoves
         } else {
@@ -270,6 +275,7 @@ export default function ClassicChess() {
     <div className="game">
       {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} onClose={handleModalClose}/> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
+      <button onClick={previousMove(positions, moves)}>Previous Move</button>
     </div>
   )
 }
