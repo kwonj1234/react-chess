@@ -4,6 +4,7 @@ import InitializeClassic from './InitializeClassic';
 import { areArraysEqual } from '../../utils';
 import PromotionModal from '../../PromotionModal';
 import { previousMove } from '../utils';
+import { Queen, Rook, Bishop, Knight } from '../Pieces';
 
 export default function ClassicChess() {
   
@@ -84,8 +85,24 @@ export default function ClassicChess() {
 
       // Once you know what the user wants to promote the pawn to, replace the pawn with the promoted piece.
       // Use the last move in the moves array
+      let tempPostitions = positions.map(function(arr) {
+        return arr.slice();
+      });
+      let pawnSq = moves.current[moves.current.length - 1].dest;
 
-      handleModalClose(false);
+      if (promotion === "Queen") {
+        tempPostitions[pawnSq[0]][pawnSq[1]] = new Queen(isWhitesTurn);
+      } else if (promotion === "Rook") {
+        tempPostitions[pawnSq[0]][pawnSq[1]] = new Rook(isWhitesTurn);
+      } else if (promotion === "Bishop") {
+        tempPostitions[pawnSq[0]][pawnSq[1]] = new Bishop(isWhitesTurn);
+      } else if (promotion === "Knight") {
+        tempPostitions[pawnSq[0]][pawnSq[1]] = new Knight(isWhitesTurn);
+      }
+
+      changePositionsState(tempPostitions);
+      setPromotionModalOpen(false)
+      setTurn(!isWhitesTurn);
 
     }
 
@@ -270,7 +287,6 @@ export default function ClassicChess() {
 
           moves.current.push({ ...move })
           movesIndex.current = moves.current.length;
-          console.log(movesIndex.current)
 
           changePositionsState(tempPostitions);
 
@@ -317,7 +333,7 @@ export default function ClassicChess() {
 
   return (
     <div className="game">
-      {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} onClose={handleModalClose}/> : <div/>}
+      {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} onSelect={handlePromotionSelect} onClose={handleModalClose} isWhite={isWhitesTurn} /> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
       <button onClick={() => handlePrevMove(positions, moves[moves.length - 1])}>Previous Move</button>
     </div>

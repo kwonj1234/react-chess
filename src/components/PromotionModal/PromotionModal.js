@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Modal from '../modal';
 
 /**
@@ -17,6 +17,9 @@ export default function PromotionModal(props) {
 
   // Deconstruct props
   const { isOpen, isWhite, onClose, onSelect } = props;
+
+  // Variable to check if the user selected a promotion for the pawn
+  let isPromoted = useRef(false)
 
   // Images for pieces
   const bishopImage = isWhite ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg";
@@ -37,8 +40,15 @@ export default function PromotionModal(props) {
   }
 
   function handleClose() {
-    if(isOpen) onClose()
+    if(isOpen && !isPromoted.current) onClose()
   };
+
+  function handlePromote(piece) {
+
+    isPromoted.current = true;
+    onSelect(piece);
+
+  }
 
   // Add event listeners for changes in the window height and width
   useEffect(() => {
@@ -64,7 +74,7 @@ export default function PromotionModal(props) {
               width: squareSize, 
               height: squareSize, 
             }} 
-            onClick={() => onSelect('Queen')}
+            onClick={() => handlePromote('Queen')}
           />
           <div 
             className={`promoteSquare`}
@@ -73,7 +83,7 @@ export default function PromotionModal(props) {
               width: squareSize, 
               height: squareSize, 
             }} 
-            onClick={() => onSelect('Rook')}
+            onClick={() => handlePromote('Rook')}
           />
           <div 
             className={`promoteSquare`}
@@ -82,7 +92,7 @@ export default function PromotionModal(props) {
               width: squareSize, 
               height: squareSize, 
             }} 
-            onClick={() => onSelect('Bishop')}
+            onClick={() => handlePromote('Bishop')}
           />
           <div 
             className={`promoteSquare`}
@@ -91,7 +101,7 @@ export default function PromotionModal(props) {
               width: squareSize, 
               height: squareSize, 
             }} 
-            onClick={() => onSelect('Knight')}
+            onClick={() => handlePromote('Knight')}
           />
         </div>
       </Modal>
