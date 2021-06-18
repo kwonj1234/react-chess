@@ -32,6 +32,20 @@ export default function ClassicChess() {
   function handleModalClose() {
     setPromotionModalOpen(false);
   }
+  
+  /**
+   * Helper function to setState for positions
+   * @param {Array} newPositions 8x8 Array representing pieces on the board
+   */
+  function changePositionsState(newPositions) {
+    setPositions(prevState => 
+      prevState.map((tempRow, i) => 
+        tempRow.map((tempSquare, j) => 
+          newPositions[i][j]
+        )
+      )
+    );
+  }
 
   /**
    * Function to handle when user selects a piece to promote to in the promotion modal.
@@ -144,14 +158,15 @@ export default function ClassicChess() {
             isWhite: isWhitesTurn,
             start: startingSquare,
             dest: [row, column],
-            captured: null
+            captured: null,
+            special: null
           }
 
           // If there's a piece on the destination square, add it to the captured pieces list
           if (positions[row][column]) {
 
             // Add the captured piece to the move record
-            move.captured = positions[row][column].constructor.name;
+            move.captured = positions[row][column];
 
             if (isWhitesTurn) {
 
@@ -168,7 +183,7 @@ export default function ClassicChess() {
           // If the possibleMove's length is 3, it is en passant
           } else if (possibleMove.length === 3 && possibleMove[2] === "en passant") {
 
-            move.captured = "Pawn";
+            move.captured = positions[row][column];
 
           };
 
@@ -187,18 +202,21 @@ export default function ClassicChess() {
             if (possibleMove[2] === "en passant" && isWhitesTurn) {
 
               tempPostitions[row + 1][column] = null;
+              move.special = "en passant";
 
             // Black en passant
             } else if (possibleMove[2] === "en passant" && !isWhitesTurn) {
 
               tempPostitions[row - 1][column] = null;
+              move.special = "en passant";
 
             // In the case of castling
             } else if (possibleMove[2] === "castle") {
 
-
               // Queen side castling
               if (startingSquare[1] > possibleMove[1]) {
+
+                move.special = "queen side castle"; 
 
                 // Set the hasMoved value to true for the castling rook
                 tempPostitions[row][0].hasMoved = true;
@@ -208,6 +226,8 @@ export default function ClassicChess() {
 
               // King side castling
               } else if (startingSquare[1] < possibleMove[1]) {
+
+                move.special = "king side castle"; 
 
                 // Set the hasMoved value to true for the castling rook
                 tempPostitions[row][7].hasMoved = true;
@@ -221,14 +241,7 @@ export default function ClassicChess() {
 
           };
 
-          setPositions(prevState => 
-            prevState.map((tempRow, i) => 
-              tempRow.map((tempSquare, j) => 
-                tempPostitions[i][j]
-              )
-            )
-          );
-
+          changePositionsState(tempPostitions);
           setMoves(prevState => [...prevState, move])
           setStartingSquare([null, null]);
           setPossibleMoves([]);
@@ -275,7 +288,7 @@ export default function ClassicChess() {
     <div className="game">
       {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} onClose={handleModalClose}/> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
-      <button onClick={previousMove(positions, moves)}>Previous Move</button>
+      <button onClick={previousMove(positions, moves[moves.length - 1])}>Previous Move</button>
     </div>
   )
 }

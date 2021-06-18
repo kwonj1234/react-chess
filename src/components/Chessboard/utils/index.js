@@ -1,4 +1,5 @@
 // File for helper functions to help facilitate the game
+import { Pawn, Knight, Bishop, Rook, Queen } from "../Pieces";
 
 /**
  * Function to see if the King of a color is in check
@@ -35,25 +36,36 @@
 /**
  * Undo the last move and return the state of the board to the second to last move.
  * @param {Array} currentBoard The current location of the pieces on the board
- * @param {Array} moves The array containing all the moves of the current game
+ * @param {Object} moveToUndo The object containing the details of the last move
  * @param {Boolean} deleteMove Boolean to represent if you want to delete the last move
+ * @returns Object with keys, board and moves representing the new board after undoing the last move
+ * and the new array of moves if 
  */
-export const previousMove = (positions, moves, deleteMove=false) => {
+export const previousMove = (positions, moveToUndo) => {
 
-  // Initalize return
-  let result = {
-    board: [],
-    moves: [],
+  // Just a reminder of the structure of what moves objects look like
+  // piece: piece
+  // isWhite: color
+  // start: [row, column]
+  // dest: [row, column],
+  // captured: the piece that was captured
+  // special: "en passant", "queen side castle", "king side castle"
+
+  const start = moveToUndo.start;
+  const dest = moveToUndo.dest;
+
+  // Move the piece back to its starting square
+  positions[start[0]][start[1]] = positions[dest[0]][dest[1]]
+
+  // If there was a piece captured replace it on the destinatoin square
+  if (moveToUndo.captured) {
+
+    positions[dest[0]][dest[1]] = moveToUndo.captured;
+
   }
 
-  const moveToUndo = moves[moves.length - 1];
-  console.log(moveToUndo)
-
-  // To update a 2D array in state, we must iterate through the arrays and return the value
-  // we want at that point.
-  let tempPostitions = positions.map(function(arr) {
-    return arr.slice();
-  });
+  console.log(positions)
+  return positions;
 
 }
 
