@@ -107,7 +107,7 @@ export default class Pawn extends Component {
    * @param {Object} prevMove Object of the previous move. Used to see if en passant is possible.
    */
   possibleMoves(src ,currentPositions, prevMove = null) {
-
+    console.log(prevMove)
     // Initalize return array
     let result = [];
 

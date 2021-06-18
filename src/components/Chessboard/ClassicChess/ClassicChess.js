@@ -14,7 +14,7 @@ export default function ClassicChess() {
   // Square from which a piece starts from
   const [startingSquare, setStartingSquare] = useState([null, null]);
   // Possible moves for selected piece
-  const [possibleMoves, setPossibleMoves] = useState([]);
+  let possibleMoves = useRef([]);
   // Record of captured pieces
   const [capturedWhitePieces, setCapturedWhitePieces] = useState([]);
   const [capturedBlackPieces, setCapturedBlackPieces] = useState([]);
@@ -170,14 +170,14 @@ export default function ClassicChess() {
         // other pieces do not need this.
         // If there are no moves made, also use the normal possibleMoves. possibleMoves method for 
         // Pawns have a default value for the third parameter
-        if (moves.length > 0 && positions[row][column].constructor.name === "Pawn") {
-          setPossibleMoves([ ...positions[row][column].possibleMoves([row, column], positions, moves[moves.length - 1]) ])
+        if (moves.current.length > 0 && positions[row][column].constructor.name === "Pawn") {
+          possibleMoves.current = [ ...positions[row][column].possibleMoves([row, column], positions, moves.current[moves.current.length - 1]) ];
         } else {
-          setPossibleMoves([...positions[row][column].possibleMoves([row, column], positions)])
+          possibleMoves.current = [...positions[row][column].possibleMoves([row, column], positions)]
         }
 
       }
-
+      console.log(possibleMoves.current)
     // Situation where there is a starting square selected
     } else {
 
@@ -186,7 +186,7 @@ export default function ClassicChess() {
       if (!positions[row][column] || isWhitesTurn !== positions[row][column]?.isWhite) {
 
         // If the move is possible, set new positions and set the turn to the next player
-        const possibleMove = isMovePossible([row, column], possibleMoves)
+        const possibleMove = isMovePossible([row, column], possibleMoves.current)
 
         if (possibleMove) {
 
@@ -291,7 +291,7 @@ export default function ClassicChess() {
           changePositionsState(tempPostitions);
 
           setStartingSquare([null, null]);
-          setPossibleMoves([]);
+          possibleMoves.current = [];
 
           if (move.captured === "King") {
             setTurn("game over");
@@ -313,7 +313,7 @@ export default function ClassicChess() {
         } else {
 
           setStartingSquare([null, null]);
-          setPossibleMoves([]);
+          possibleMoves.current = [];
 
         }
 
@@ -321,9 +321,9 @@ export default function ClassicChess() {
       // set the clicked square as the new starting square and highlight it
       } else if (positions[row][column].isWhite === isWhitesTurn) {
 
-        let temp = [row, column]
-        setStartingSquare(temp)
-        setPossibleMoves([...positions[temp[0]][temp[1]].possibleMoves(temp, positions)])
+        let temp = [row, column];
+        setStartingSquare(temp);
+        possibleMoves.current = [...positions[temp[0]][temp[1]].possibleMoves(temp, positions)];
 
       }
 
@@ -335,7 +335,7 @@ export default function ClassicChess() {
     <div className="game">
       {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} onSelect={handlePromotionSelect} onClose={handleModalClose} isWhite={isWhitesTurn} /> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
-      <button onClick={() => handlePrevMove(positions, moves[moves.length - 1])}>Previous Move</button>
+      <button onClick={() => handlePrevMove(positions, moves.current[moves.current.length - 1])}>Previous Move</button>
     </div>
   )
 }
