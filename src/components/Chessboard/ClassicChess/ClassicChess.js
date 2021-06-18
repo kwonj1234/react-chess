@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Board from '../Board';
 import InitializeClassic from './InitializeClassic';
 import { areArraysEqual } from '../../utils';
@@ -18,13 +18,41 @@ export default function ClassicChess() {
   const [capturedWhitePieces, setCapturedWhitePieces] = useState([]);
   const [capturedBlackPieces, setCapturedBlackPieces] = useState([]);
   // Record of all the moves made thus far
-  const [moves, setMoves] = useState([]);
+  let moves = useRef([]);
+  let movesIndex = useRef(0);
   // State for promotion modal, if a pawn tries to promote.
   const [isPromotionModalOpen, setPromotionModalOpen] = useState(false);
 
   useEffect(() => {
     
   }, [])
+
+  /**
+   * Function to handle changing state of the board to a previous move
+   * @param {Boolean} deletePreviousMove If you want to undo a move completely, removes the last move in the moves array;
+   */
+  function handlePrevMove(deletePreviousMove=false) {
+    console.log("movesIndex", movesIndex.current);
+    console.log("moves", moves.current.length)
+
+    // Do not run function if there is no move to go back to
+    if (moves.current.length > 0 && movesIndex.current > 0) {
+      console.log("RUN")
+      movesIndex.current = movesIndex.current - 1;
+      const previousPositions = previousMove(positions, moves.current[movesIndex.current]);
+      changePositionsState(previousPositions);
+
+      if (deletePreviousMove) {
+
+        moves.current.pop();
+
+      }
+
+    } else {
+      return;
+    }
+
+  }
 
   /**
    * Function to close the promotion modal
@@ -241,8 +269,12 @@ export default function ClassicChess() {
 
           };
 
+          moves.current.push({ ...move })
+          movesIndex.current = moves.current.length;
+          console.log(movesIndex.current)
+
           changePositionsState(tempPostitions);
-          setMoves(prevState => [...prevState, move])
+
           setStartingSquare([null, null]);
           setPossibleMoves([]);
 
@@ -288,7 +320,7 @@ export default function ClassicChess() {
     <div className="game">
       {isPromotionModalOpen ? <PromotionModal isOpen={isPromotionModalOpen} isWhite={isWhitesTurn} onClose={handleModalClose}/> : <div/>}
       <Board positions={positions} onClick={handleSquareClick} startingSquare={startingSquare}/>
-      <button onClick={previousMove(positions, moves[moves.length - 1])}>Previous Move</button>
+      <button onClick={() => handlePrevMove(positions, moves[moves.length - 1])}>Previous Move</button>
     </div>
   )
 }

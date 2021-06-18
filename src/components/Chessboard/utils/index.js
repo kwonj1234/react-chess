@@ -1,5 +1,4 @@
 // File for helper functions to help facilitate the game
-import { Pawn, Knight, Bishop, Rook, Queen } from "../Pieces";
 
 /**
  * Function to see if the King of a color is in check
@@ -62,9 +61,12 @@ export const previousMove = (positions, moveToUndo) => {
 
     positions[dest[0]][dest[1]] = moveToUndo.captured;
 
+  } else {
+
+    positions[dest[0]][dest[1]] = null;
+
   }
 
-  console.log(positions)
   return positions;
 
 }
