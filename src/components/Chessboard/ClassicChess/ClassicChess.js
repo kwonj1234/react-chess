@@ -6,6 +6,9 @@ import PromotionModal from '../../PromotionModal';
 import { previousMove } from '../utils';
 import { Queen, Rook, Bishop, Knight } from '../Pieces';
 
+/**
+ * Initalizes a game of classic chess.
+ */
 export default function ClassicChess() {
   
   // Initialize default state
