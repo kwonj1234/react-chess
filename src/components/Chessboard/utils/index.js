@@ -1,6 +1,17 @@
 // File for helper functions to help facilitate the game
 
 /**
+ * Functions:
+ * 
+ * isKingInCheck
+ * 
+ * previousMove
+ * 
+ * nextMove
+ * 
+ */
+
+/**
  * Function to see if the King of a color is in check
  * @param {*} isWhite 
  * @param {*} currentPositions 
