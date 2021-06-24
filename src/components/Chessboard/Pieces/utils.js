@@ -1,6 +1,20 @@
 // Utility functions for the pieces
 
 /**
+ * Functions:
+ * 
+ * possibleSquaresDiagonal
+ * 
+ * isDiagonalMovePossible
+ * 
+ * possibleSquaresStraightLine
+ * 
+ * isStraightLineMovePossible
+ * 
+ * canPieceGoToDest
+ */
+
+/**
  * Returns an array of all possible squares that the piece can reach by going diagonally from its
  * current position
  * @param {Array} pieceSq The current square of the piece you are querying represented as an array
